@@ -30,6 +30,8 @@ services:
         restart: unless-stopped
         depends_on:
             - db
+            - redis
+        command: --watch --workers=1
 
     db:
         container_name: telsa_db_mysql
@@ -44,6 +46,20 @@ services:
         networks:
             - main-network
         restart: unless-stopped
+
+    phpmyadmin:
+        container_name: telsa_phpmyadmin
+        image: phpmyadmin:apache
+        ports:
+            - ${PMA_PORT:-8090}:80
+        networks:
+            - main-network
+        depends_on:
+            - db
+        environment:
+            - PMA_HOST=db
+            - PMA_PORT=3306
+            - PMA_ARBITRARY=1
 
     redis:
         container_name: telsa_redis
