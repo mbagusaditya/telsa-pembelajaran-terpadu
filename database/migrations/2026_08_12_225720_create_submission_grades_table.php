@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('submission_grades', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->decimal('score', 5, 2);
-            $table->text('feedback');
+            $table->text('feedback')->nullable();
             $table->uuid('teacher_id');
             $table->uuid('submission_id');
             $table->timestamps();
@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->foreign('submission_id')
                 ->references('id')
-                ->on('submission')
+                ->on('submissions')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 

@@ -73,9 +73,9 @@ Tujuan: memastikan project dapat dijalankan dan dikembangkan dengan nyaman.
 - [x] Schedules
 - [x] Materials
 - [x] Assignments
-- [ ] Submissions
-- [ ] SubmissionGrades
-- [ ] Attachments
+- [x] Submissions
+- [x] SubmissionGrades
+- [x] Attachments
 
 ---
 
