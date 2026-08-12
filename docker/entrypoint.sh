@@ -77,6 +77,7 @@ if [ "$APP_ENV" = "local" ]; then
     echo "Starting Vite..."
     # Run vite with host flag to allow access from outside
     bun run dev -- --host 0.0.0.0 &
+    VITE_PID=$!
 else
     echo "Building assets..."
     bun run build
