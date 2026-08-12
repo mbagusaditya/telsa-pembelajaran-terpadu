@@ -27,14 +27,14 @@ class ClassGroupFactory extends Factory
         ];
     }
 
-    public function majorId(Major $major): static
+    public function setMajor(Major $major): static
     {
         return $this->state(fn () => [
             'major_id' => $major->id
         ]);
     }
 
-    public function homeroomTeacherId(Teacher $teacher): static
+    public function setHomeroomTeacher(Teacher $teacher): static
     {
         return $this->state(fn () => [
             'homeroom_teacher_id' => $teacher->id

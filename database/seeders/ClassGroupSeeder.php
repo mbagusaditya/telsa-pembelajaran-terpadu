@@ -28,8 +28,8 @@ class ClassGroupSeeder extends Seeder
         ClassGroup::factory()
             ->count(3)
             ->createdBy($admin)
-            ->majorId($major)
-            ->homeroomTeacherId($teacher)
+            ->setMajor($major)
+            ->setHomeroomTeacher($teacher)
             ->create();
     }
 }
