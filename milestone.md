@@ -71,7 +71,7 @@ Tujuan: memastikan project dapat dijalankan dan dikembangkan dengan nyaman.
 - [x] Subjects
 - [x] CourseOfferings
 - [x] Schedules
-- [ ] Materials
+- [x] Materials
 - [ ] Assignments
 - [ ] Submissions
 - [ ] SubmissionGrades
