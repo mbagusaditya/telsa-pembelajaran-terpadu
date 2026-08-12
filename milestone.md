@@ -60,6 +60,23 @@ Tujuan: memastikan project dapat dijalankan dan dikembangkan dengan nyaman.
 - [ ] Development sample courses
 - [ ] Development sample classes
 
+## M0.4 - Migrations, Seeders, Factories, and Models
+
+- [] Users
+- [] Admins
+- [] Teachers
+- [] Students
+- [] Majors
+- [] ClassGroups
+- [] Subjects
+- [] CourseOfferings
+- [] Schedules
+- [] Materials
+- [] Assignments
+- [] Submissions
+- [] SubmissionGrades
+- [] Attachments
+
 ---
 
 # Phase 1 — Authentication & Authorization
