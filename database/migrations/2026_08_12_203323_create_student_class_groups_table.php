@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('student_id');
             $table->uuid('class_group_id');
             $table->timestamp('joined_at');
-            $table->timestamp('left_at');
+            $table->timestamp('left_at')->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')
