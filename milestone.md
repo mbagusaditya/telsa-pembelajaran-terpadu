@@ -62,20 +62,20 @@ Tujuan: memastikan project dapat dijalankan dan dikembangkan dengan nyaman.
 
 ## M0.4 - Migrations, Seeders, Factories, and Models
 
-- [] Users
-- [] Admins
-- [] Teachers
-- [] Students
-- [] Majors
-- [] ClassGroups
-- [] Subjects
-- [] CourseOfferings
-- [] Schedules
-- [] Materials
-- [] Assignments
-- [] Submissions
-- [] SubmissionGrades
-- [] Attachments
+- [x] Users
+- [x] Admins
+- [x] Teachers
+- [x] Students
+- [x] Majors
+- [x] ClassGroups
+- [x] Subjects
+- [x] CourseOfferings
+- [x] Schedules
+- [ ] Materials
+- [ ] Assignments
+- [ ] Submissions
+- [ ] SubmissionGrades
+- [ ] Attachments
 
 ---
 
