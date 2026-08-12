@@ -6,26 +6,17 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
-    'nip',
+    'code',
     'name',
-    'wa_number',
-    'user_id',
-    'joined_at',
     'created_by'
 ])]
-class Teacher extends Model
+class Major extends Model
 {
-    /** @use HasFactory<\Database\Factories\TeacherFactory> */
+    /** @use HasFactory<\Database\Factories\MajorFactory> */
     use HasFactory, HasUuids;
 
     protected $keyType = 'string';
     public $incrementing = false;
-
-    public function user():BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }
