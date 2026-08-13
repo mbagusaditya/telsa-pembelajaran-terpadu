@@ -42,6 +42,7 @@ ensure_node_modules
 echo "Setting permissions..."
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
+chmod -R 664 storage/logs/laravel.log
 
 # Wait for database
 if [ -n "$DB_HOST" ]; then

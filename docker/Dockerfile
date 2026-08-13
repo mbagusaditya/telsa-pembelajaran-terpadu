@@ -32,6 +32,18 @@ COPY package.json bun.lock ./
 
 RUN bun install --frozen-lockfile
 
+# set id for www-data
+RUN existing_uid=$(getent passwd ${UID} | cut -d: -f1 || true) \
+    && existing_gid=$(getent group ${GID} | cut -d: -f1 || true) \
+    && if [ -n "$existing_uid" ] && [ "$existing_uid" != "www-data" ]; then \
+         deluser "$existing_uid"; \
+       fi \
+    && if [ -n "$existing_gid" ] && [ "$existing_gid" != "www-data" ]; then \
+         delgroup "$existing_gid"; \
+       fi \
+    && sed -i "s/^www-data:x:[0-9]*:[0-9]*/www-data:x:${UID}:${GID}/" /etc/passwd \
+    && sed -i "s/^www-data:x:[0-9]*/www-data:x:${GID}/" /etc/group
+
 # Set entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
