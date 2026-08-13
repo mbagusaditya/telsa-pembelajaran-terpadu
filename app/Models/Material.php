@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[Fillable([
     'title',
@@ -31,5 +32,10 @@ class Material extends Model
     public function courseOffering():BelongsTo
     {
         return $this->belongsTo(CourseOffering::class, 'course_offering_id');
+    }
+
+    public function attachments():MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 }

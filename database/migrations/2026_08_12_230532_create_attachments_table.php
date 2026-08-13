@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('file_path');
             $table->string('file_mime');
             $table->string('disk');
-            $table->string('attachable_type');
-            $table->uuid('attachable_id');
+            $table->uuidMorphs('attachable');
             $table->timestamps();
         });
     }
