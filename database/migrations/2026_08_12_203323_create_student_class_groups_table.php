@@ -24,6 +24,12 @@ return new class extends Migration
                 ->on('students')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+
+            $table->foreign('class_group_id')
+                ->references('id')
+                ->on('class_groups')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 

@@ -26,13 +26,13 @@ return new class extends Migration
                 ->references('id')
                 ->on('subjects')
                 ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreign('class_group_id')
                 ->references('id')
                 ->on('class_groups')
                 ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreign('teacher_id')
                 ->references('id')
@@ -44,7 +44,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->cascadeOnUpdate()
-                ->restrictOnDelete();
+                ->nullOnDelete();
         });
     }
 

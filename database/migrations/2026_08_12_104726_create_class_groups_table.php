@@ -31,13 +31,13 @@ return new class extends Migration
                 ->references('id')
                 ->on('teachers')
                 ->cascadeOnUpdate()
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreign('created_by')
                 ->references('id')
                 ->on('users')
                 ->cascadeOnUpdate()
-                ->restrictOnDelete();
+                ->nullOnDelete();
         });
     }
 
