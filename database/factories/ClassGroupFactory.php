@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\ClassGroup;
 use App\Models\Major;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,9 @@ class ClassGroupFactory extends Factory
             'code' => fake()->bothify('###'),
             'name' => fake()->words(2, true),
             'academic_year' => '2026/2027',
+            'major_id' => Major::factory(),
+            'homeroom_teacher_id' => Teacher::factory(),
+            'created_by' => User::factory()
         ];
     }
 

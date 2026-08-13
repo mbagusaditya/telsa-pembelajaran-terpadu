@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Assignment;
 use App\Models\CourseOffering;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +26,9 @@ class AssignmentFactory extends Factory
             'description' => fake()->words(20, true),
             'due_date' => now()->addDays(10),
             'visibility' => 'public',
-            'max_attempt' => 2
+            'max_attempt' => 2,
+            'created_by' => User::factory(),
+            'course_offering_id' => CourseOffering::factory()
         ];
     }
 

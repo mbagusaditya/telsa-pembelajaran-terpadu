@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\CourseOffering;
 use App\Models\Material;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,8 @@ class MaterialFactory extends Factory
             'title' => fake()->words(4, true),
             'description' => fake()->words(20, true),
             'visibility' => 'public',
+            'created_by' => User::factory(),
+            'course_offering_id' => CourseOffering::factory()
         ];
     }
 

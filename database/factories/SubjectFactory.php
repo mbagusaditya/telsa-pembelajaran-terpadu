@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Admin;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,8 @@ class SubjectFactory extends Factory
     {
         return [
             'code' => fake()->unique()->bothify("SUB-###"),
-            'name' => fake()->words(2, true)
+            'name' => fake()->words(2, true),
+            'created_by' => User::factory()
         ];
     }
 

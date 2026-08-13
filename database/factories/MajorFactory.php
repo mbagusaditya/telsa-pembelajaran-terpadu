@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Admin;
 use App\Models\Major;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -31,6 +32,7 @@ class MajorFactory extends Factory
                 'multimedia',
                 'teknik kendaraan ringan'
             ]),
+            'created_by' => User::factory()
         ];
     }
 

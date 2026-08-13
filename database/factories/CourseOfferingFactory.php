@@ -7,6 +7,7 @@ use App\Models\ClassGroup;
 use App\Models\CourseOffering;
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,10 @@ class CourseOfferingFactory extends Factory
             'code' => fake()->bothify("####"),
             'name' => fake()->words(2, true),
             'academic_year' => '2026/2027',
+            'subject_id' => Subject::factory(),
+            'class_group_id' => ClassGroup::factory(),
+            'teacher' => Teacher::factory(),
+            'created_by' => User::factory()
         ];
     }
 

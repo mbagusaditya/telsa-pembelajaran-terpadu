@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Admin;
 use App\Models\CourseOffering;
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -46,7 +47,9 @@ class ScheduleFactory extends Factory
                 'wednesday',
                 'thursday',
                 'friday'
-            ])
+            ]),
+            'course_offering_id' => CourseOffering::factory(),
+            'created_by' => User::factory()
         ];
     }
 

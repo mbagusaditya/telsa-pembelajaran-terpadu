@@ -24,7 +24,9 @@ class StudentClassGroupFactory extends Factory
             'left_at' => fake()->randomElement([
                 now(),
                 null
-            ])
+            ]),
+            'student_id' => Student::factory(),
+            'class_group_id' => ClassGroup::factory()
         ];
     }
 
