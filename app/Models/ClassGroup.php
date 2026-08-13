@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'code',
@@ -22,4 +23,19 @@ class ClassGroup extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
+
+    public function creator():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function homeroomTeacher(): BelongsTo
+    {
+        return $this->belongsTo(Teacher::class, 'homeroom_teacher_id');
+    }
+
+    public function major(): BelongsTo
+    {
+        return $this->belongsTo(Major::class, 'major_id');
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'notes',
@@ -21,4 +22,14 @@ class Submission extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
+
+    public function student():BelongsTo
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    public function assignment():BelongsTo
+    {
+        return $this->belongsTo(Assignment::class, 'assignment_id');
+    }
 }

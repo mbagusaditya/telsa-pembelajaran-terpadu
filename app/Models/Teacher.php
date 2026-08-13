@@ -28,4 +28,9 @@ class Teacher extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function creator():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
