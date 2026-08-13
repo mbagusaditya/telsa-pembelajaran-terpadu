@@ -1,89 +1,215 @@
 #!/bin/sh
+
 set -e
 
-# Change to app directory
 cd /app
 
-echo "Checking dependencies..."
+echo "=================================================="
+echo "Starting Laravel / FrankenPHP container"
+echo "=================================================="
 
-# Fix dubious ownership for git
+echo "UID: $(id -u)"
+echo "GID: $(id -g)"
+
+# ============================================================
+# Git
+# ============================================================
+
 git config --global --add safe.directory /app || true
 
-# Ensure necessary directories exist before anything else
-echo "Preparing directories..."
-mkdir -p storage/app/public \
-         storage/framework/cache/data \
-         storage/framework/sessions \
-         storage/framework/views \
-         storage/logs \
-         bootstrap/cache \
-         bootstrap/cache/filament
+# ============================================================
+# Prepare Laravel directories
+# ============================================================
 
-# Check if composer dependencies are installed
-if [ ! -f "vendor/autoload.php" ]; then
-    echo "Composer dependencies not found. Installing..."
-    composer install --no-interaction --prefer-dist --optimize-autoloader
+echo "Preparing Laravel directories..."
+
+mkdir -p \
+    storage/app/public \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    bootstrap/cache/filament
+
+# ============================================================
+# Fix ownership
+#
+# IMPORTANT:
+# We DO NOT chown /app.
+#
+# /app is a bind mount from the host.
+# Chowning /app would modify ownership of the host project.
+#
+# node_modules and vendor are Docker named volumes,
+# therefore it is safe to chown them here.
+# ============================================================
+
+echo "Fixing ownership of Docker volumes..."
+
+chown -R www-data:www-data /app/node_modules
+chown -R www-data:www-data /app/vendor
+
+chown -R www-data:www-data /app/storage
+chown -R www-data:www-data /app/bootstrap/cache
+
+chmod -R 775 /app/storage
+chmod -R 775 /app/bootstrap/cache
+
+# ============================================================
+# Composer
+# ============================================================
+
+echo "Checking Composer dependencies..."
+
+if [ ! -f "/app/vendor/autoload.php" ]; then
+
+    echo "Composer dependencies not found."
+    echo "Running composer install as www-data..."
+
+    su-exec www-data composer install \
+        --no-interaction \
+        --prefer-dist \
+        --optimize-autoloader
+
+else
+
+    echo "Composer dependencies already installed."
+
 fi
 
-# Ensure node_modules match the container platform (Alpine/musl native bindings)
+# ============================================================
+# Bun / Node modules
+# ============================================================
+
 ensure_node_modules() {
-    if [ -d "node_modules" ] && [ -x "node_modules/.bin/vite" ] \
-        && node -e "require('lightningcss')" >/dev/null 2>&1; then
-        return 0
+
+    if [ -d "/app/node_modules" ] \
+        && [ -x "/app/node_modules/.bin/vite" ] \
+        && su-exec www-data bun --version >/dev/null 2>&1
+    then
+
+        if su-exec www-data bun run --silent >/dev/null 2>&1; then
+            :
+        fi
+
+        if su-exec www-data node -e "require('lightningcss')" >/dev/null 2>&1; then
+            echo "Node modules are ready."
+            return 0
+        fi
+
     fi
 
-    echo "Node modules missing or native bindings incompatible. Running bun install..."
-    bun install
+    echo "Node modules missing or incompatible."
+    echo "Running bun install as www-data..."
+
+    su-exec www-data bun install
+
+    echo "Fixing node_modules ownership..."
+
+    chown -R www-data:www-data /app/node_modules
 }
 
 ensure_node_modules
 
-# Ensure permissions - www-data is the user for frankenphp/caddy
-echo "Setting permissions..."
-chown -R www-data:www-data storage bootstrap/cache
-chmod -R 775 storage bootstrap/cache
-chmod -R 664 storage/logs/laravel.log
+# ============================================================
+# Final permissions
+# ============================================================
 
-# Wait for database
+chown -R www-data:www-data \
+    /app/storage \
+    /app/bootstrap/cache
+
+chmod -R 775 \
+    /app/storage \
+    /app/bootstrap/cache
+
+# ============================================================
+# Database
+# ============================================================
+
 if [ -n "$DB_HOST" ]; then
+
     echo "Waiting for database ($DB_HOST)..."
-    until nc -z -v -w30 "$DB_HOST" 3306; do
-        echo "Database is unavailable - sleeping"
+
+    until nc -z -w 5 "$DB_HOST" 3306; do
+        echo "Database is unavailable - sleeping..."
         sleep 2
     done
+
     echo "Database is up!"
+
 fi
 
-# Clear cache that might be stale or have wrong paths
-echo "Clearing stale cache..."
-rm -f bootstrap/cache/*.php
+# ============================================================
+# Clear Laravel stale cache
+# ============================================================
 
-# Public disk: symlink public/storage -> storage/app/public
+echo "Clearing stale Laravel cache..."
+
+rm -f /app/bootstrap/cache/*.php
+
+# ============================================================
+# Storage symlink
+# ============================================================
+
 echo "Ensuring storage link..."
-php artisan storage:link --force 2>/dev/null || true
 
-# Generate APP_KEY if not set
-if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ]; then
+su-exec www-data php artisan storage:link --force 2>/dev/null || true
+
+# ============================================================
+# APP_KEY
+# ============================================================
+
+if [ -z "$APP_KEY" ]; then
+
+    echo "APP_KEY is missing."
     echo "Generating APP_KEY..."
-    php artisan key:generate --force
+
+    su-exec www-data php artisan key:generate --force
+
 fi
 
-# Run migrations in local
+# ============================================================
+# Database migrations
+# ============================================================
+
 if [ "$APP_ENV" = "local" ]; then
+
     echo "Running migrations..."
-    php artisan migrate --force
+
+    su-exec www-data php artisan migrate --force
+
 fi
 
+# ============================================================
+# Vite
+# ============================================================
+
 if [ "$APP_ENV" = "local" ]; then
+
     echo "Starting Vite..."
-    # Run vite with host flag to allow access from outside
-    bun run dev -- --host 0.0.0.0 &
-    VITE_PID=$!
+
+    su-exec www-data \
+        bun run dev -- --host 0.0.0.0 &
+
 else
-    echo "Building assets..."
-    bun run build
+
+    echo "Building production assets..."
+
+    su-exec www-data \
+        bun run build
+
 fi
+
+# ============================================================
+# FrankenPHP / Octane
+# ============================================================
 
 echo "Starting Octane with FrankenPHP..."
-# Execute as www-data if possible, or frankenphp will handle it
-exec php artisan octane:frankenphp "$@" --host=0.0.0.0 --port=8000
+
+exec su-exec www-data \
+    php artisan octane:frankenphp \
+    "$@" \
+    --host=0.0.0.0 \
+    --port=8000
