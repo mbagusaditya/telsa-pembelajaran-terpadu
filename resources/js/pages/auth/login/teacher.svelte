@@ -44,7 +44,7 @@
 
                     <div class="flex items-center gap-3 mb-6">
                         <Checkbox id="student-remember" name="remember" />
-                        <Label for="student-remember">Remember me</Label>
+                        <Label for="student-remember">Ingat saya</Label>
                     </div>
 
                     <Button class="w-full">Masuk sebagai guru</Button>

@@ -2,9 +2,26 @@
     import AuthLayout from '@/layouts/auth.svelte';
     import * as Card from '@/components/ui/card';
     import { Input } from '@/components/ui/input';
+    import * as InputGroup from '@/components/ui/input-group';
     import { Label } from '@/components/ui/label';
     import { Button } from '@/components/ui/button';
     import { Checkbox } from '@/components/ui/checkbox';
+    import { EyeIcon, EyeOffIcon } from '@lucide/svelte';
+    import { useForm } from '@inertiajs/svelte';
+
+    let isPasswordRevealed = $state(false);
+
+    const form = useForm({
+        nis: null,
+        password: null,
+        remember: false,
+    }).dontRemember('password');
+
+    function submit(e: Event) {
+        e.preventDefault();
+
+        form.post('/auth/login');
+    }
 </script>
 
 <AuthLayout>
@@ -22,32 +39,66 @@
             class="w-full sm:w-[70%] mx-auto lg:shadow-none lg:ring-0 lg:p-0 lg:rounded-none lg:overflow-visible"
         >
             <Card.Content class="lg:p-0">
-                <form>
+                <form onsubmit={submit}>
                     <div class="flex flex-col gap-2 mb-3">
                         <Label for="student-nis">
                             NIS <span class="text-red-600">*</span>
                         </Label>
-                        <Input name="nis" id="student-nis" required />
+
+                        <Input
+                            name="nis"
+                            id="student-nis"
+                            bind:value={form.nis}
+                        />
+
+                        {#if form.errors.nis}
+                            <span class="text-destructive text-normal">
+                                {form.errors.nis}
+                            </span>
+                        {/if}
                     </div>
 
                     <div class="flex flex-col gap-2 mb-3">
                         <Label for="student-password">
                             Password <span class="text-red-600">*</span>
                         </Label>
-                        <Input
-                            type="password"
-                            name="nis"
-                            id="student-password"
-                            required
-                        />
+
+                        <InputGroup.Root>
+                            <InputGroup.Input
+                                type={isPasswordRevealed ? 'text' : 'password'}
+                                name="nis"
+                                id="student-password"
+                                bind:value={form.password}
+                                autocomplete="current-password"
+                            />
+                            <InputGroup.Addon align="inline-end">
+                                <InputGroup.Button
+                                    onclick={() =>
+                                        (isPasswordRevealed =
+                                            !isPasswordRevealed)}
+                                >
+                                    {#if isPasswordRevealed}
+                                        <EyeIcon />
+                                    {:else}
+                                        <EyeOffIcon />
+                                    {/if}
+                                </InputGroup.Button>
+                            </InputGroup.Addon>
+                        </InputGroup.Root>
                     </div>
 
                     <div class="flex items-center gap-3 mb-6">
-                        <Checkbox id="student-remember" name="remember" />
-                        <Label for="student-remember">Remember me</Label>
+                        <Checkbox
+                            id="student-remember"
+                            name="remember"
+                            bind:checked={form.remember}
+                        />
+                        <Label for="student-remember">Ingat saya</Label>
                     </div>
 
-                    <Button class="w-full">Submit</Button>
+                    <Button type="submit" class="w-full"
+                        >Masuk ruang belajar</Button
+                    >
                 </form>
             </Card.Content>
         </Card.Root>
