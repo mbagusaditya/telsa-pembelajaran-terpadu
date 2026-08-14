@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('wa_number', 20);
             $table->date('joined_at');
-            $table->uuid('user_id');
-            $table->uuid('created_by');
+            $table->uuid('user_id')->nullable();
+            $table->uuid('created_by')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

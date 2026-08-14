@@ -20,7 +20,14 @@ return new class extends Migration
             $table->string('file_mime');
             $table->string('disk');
             $table->uuidMorphs('attachable');
+            $table->uuid('uploader_id');
             $table->timestamps();
+
+            $table->foreign('uploader_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 

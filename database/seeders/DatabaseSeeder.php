@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AssignmentSeeder::class);
         $this->call(SubmissionSeeder::class);
         $this->call(SubmissionGradeSeeder::class);
+        $this->call(RoleAndPermissionSeeder::class);
     }
 }

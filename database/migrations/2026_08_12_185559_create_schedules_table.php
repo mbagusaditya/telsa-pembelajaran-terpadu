@@ -18,7 +18,7 @@ return new class extends Migration
             $table->time('finished_at');
             $table->string('day', 100);
             $table->uuid('course_offering_id');
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->timestamps();
 
             $table->foreign('course_offering_id')

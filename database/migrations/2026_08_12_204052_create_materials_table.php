@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('description');
             $table->string('visibility', 100);
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->uuid('course_offering_id');
             $table->timestamps();
 

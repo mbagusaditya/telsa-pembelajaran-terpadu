@@ -19,7 +19,7 @@ return new class extends Migration
             $table->uuid('subject_id');
             $table->uuid('class_group_id');
             $table->uuid('teacher_id');
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->timestamps();
 
             $table->foreign('subject_id')

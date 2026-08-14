@@ -28,7 +28,7 @@ class CourseOfferingFactory extends Factory
             'academic_year' => '2026/2027',
             'subject_id' => Subject::factory(),
             'class_group_id' => ClassGroup::factory(),
-            'teacher' => Teacher::factory(),
+            'teacher_id' => Teacher::factory(),
             'created_by' => User::factory(),
         ];
     }
