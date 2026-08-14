@@ -15,27 +15,27 @@ class AdminLoginController extends Controller
     }
 
     public function login(AdminLoginPostRequest $request)
-   {
-       $credentials = $request->validated();
+    {
+        $credentials = $request->validated();
 
-       if (!Auth::guard('web')->attempt($credentials)) {
-           Inertia::flash('toast', [
-               'message' => 'Email atau Password salah!',
-               'type' => 'error',
-               'code' => 401
-           ]);
+        if (! Auth::guard('web')->attempt($credentials)) {
+            Inertia::flash('toast', [
+                'message' => 'Email atau Password salah!',
+                'type' => 'error',
+                'code' => 401,
+            ]);
 
-           return back();
-       }
+            return back();
+        }
 
-       $request->session()->regenerate();
+        $request->session()->regenerate();
 
-       Inertia::flash('toast', [
-           'message' => 'Login berhasil!',
-           'type' => 'success',
-           'code' => 200
-       ]);
+        Inertia::flash('toast', [
+            'message' => 'Login berhasil!',
+            'type' => 'success',
+            'code' => 200,
+        ]);
 
-       return redirect()->route('dashboard');
-   }
+        return redirect()->route('dashboard');
+    }
 }

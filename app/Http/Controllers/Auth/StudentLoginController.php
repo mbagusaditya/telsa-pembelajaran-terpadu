@@ -25,11 +25,11 @@ class StudentLoginController extends Controller
             ->where('nis', $credentials['nis'])
             ->first(['id', 'nis', 'user_id']);
 
-        if (!($student && $student->user && Hash::check($credentials['password'], $student->user->password))) {
+        if (! ($student && $student->user && Hash::check($credentials['password'], $student->user->password))) {
             Inertia::flash('toast', [
                 'message' => 'NIS atau Password salah!',
                 'type' => 'error',
-                'code' => 401
+                'code' => 401,
             ]);
 
             return back();
@@ -41,7 +41,7 @@ class StudentLoginController extends Controller
         Inertia::flash('toast', [
             'message' => 'Login berhasil!',
             'type' => 'success',
-            'code' => 200
+            'code' => 200,
         ]);
 
         return redirect()->route('dashboard');

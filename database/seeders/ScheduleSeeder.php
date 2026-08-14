@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\CourseOffering;
 use App\Models\Schedule;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ScheduleSeeder extends Seeder
@@ -15,8 +14,9 @@ class ScheduleSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!app()->environment('local'))
+        if (! app()->environment('local')) {
             return;
+        }
 
         $courseOffering = CourseOffering::query()->get(['id'])->first();
 

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\ClassGroup;
 use App\Models\Student;
 use App\Models\StudentClassGroup;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class StudentClassGroupSeeder extends Seeder
@@ -15,8 +14,9 @@ class StudentClassGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!app()->environment('local'))
+        if (! app()->environment('local')) {
             return;
+        }
 
         $student = Student::query()->get(['id'])->first();
 

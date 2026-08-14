@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Assignment;
 use App\Models\CourseOffering;
 use App\Models\Teacher;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AssignmentSeeder extends Seeder
@@ -15,8 +14,9 @@ class AssignmentSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!app()->environment('local'))
+        if (! app()->environment('local')) {
             return;
+        }
 
         $courseOffering = CourseOffering::query()->get(['id', 'teacher_id'])->first();
 

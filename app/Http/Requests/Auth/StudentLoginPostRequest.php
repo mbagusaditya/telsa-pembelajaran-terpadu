@@ -24,7 +24,7 @@ class StudentLoginPostRequest extends FormRequest
     {
         return [
             'nis' => ['required'],
-            'password' => ['required']
+            'password' => ['required'],
         ];
     }
 }

@@ -20,19 +20,19 @@ class TeacherFactory extends Factory
     public function definition(): array
     {
         return [
-            'nip' => fake()->unique()->numerify("########"),
+            'nip' => fake()->unique()->numerify('########'),
             'name' => fake()->name(),
             'wa_number' => fake()->numerify('08##########'),
             'user_id' => User::factory(),
             'created_by' => User::factory(),
-            'joined_at' => fake()->dateTimeBetween(startDate:'-20 years')->format('Y-m-d')
+            'joined_at' => fake()->dateTimeBetween(startDate: '-20 years')->format('Y-m-d'),
         ];
     }
 
     public function createdBy(Admin $admin): static
     {
         return $this->state(fn (array $attributes) => [
-            'created_by' => $admin->user_id
+            'created_by' => $admin->user_id,
         ]);
     }
 }

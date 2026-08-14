@@ -14,14 +14,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
     'file_mime',
     'disk',
     'attachable_type',
-    'attachable_id'
+    'attachable_id',
 ])]
 class Attachment extends Model
 {
     protected $keyType = 'string';
+
     public $incrementing = false;
 
-    public function attachable():MorphTo
+    public function attachable(): MorphTo
     {
         return $this->morphTo();
     }

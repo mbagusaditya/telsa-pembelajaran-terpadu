@@ -20,7 +20,7 @@ class AdminFactory extends Factory
     {
         return [
             'username' => fake()->userName(),
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
         ];
     }
 }

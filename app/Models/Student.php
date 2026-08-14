@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\StudentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,29 +19,30 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'admission_year',
     'status',
     'user_id',
-    'created_by'
+    'created_by',
 ])]
 class Student extends Model
 {
-    /** @use HasFactory<\Database\Factories\StudentFactory> */
+    /** @use HasFactory<StudentFactory> */
     use HasFactory, HasUuids;
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
-    protected function casts():array
+    protected function casts(): array
     {
         return [
-            'admission_year' => 'integer'
+            'admission_year' => 'integer',
         ];
     }
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function creator():BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }

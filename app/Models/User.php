@@ -17,9 +17,10 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasUuids;
+    use HasFactory, HasUuids, Notifiable;
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -35,17 +36,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function student():HasOne
+    public function student(): HasOne
     {
         return $this->hasOne(Student::class, 'user_id');
     }
 
-    public function teacher():HasOne
+    public function teacher(): HasOne
     {
         return $this->hasOne(Teacher::class, 'user_id');
     }
 
-    public function admin():HasOne
+    public function admin(): HasOne
     {
         return $this->hasOne(Admin::class, 'user_id');
     }

@@ -18,11 +18,11 @@ class TeacherLoginController extends Controller
     {
         $credentials = $request->validated();
 
-        if (!Auth::guard('web')->attempt($credentials)) {
+        if (! Auth::guard('web')->attempt($credentials)) {
             Inertia::flash('toast', [
                 'message' => 'Email atau Password salah!',
                 'type' => 'error',
-                'code' => 401
+                'code' => 401,
             ]);
 
             return back();
@@ -33,7 +33,7 @@ class TeacherLoginController extends Controller
         Inertia::flash('toast', [
             'message' => 'Login berhasil!',
             'type' => 'success',
-            'code' => 200
+            'code' => 200,
         ]);
 
         return redirect()->route('dashboard');

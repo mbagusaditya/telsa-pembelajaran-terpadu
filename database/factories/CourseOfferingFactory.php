@@ -23,41 +23,41 @@ class CourseOfferingFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => fake()->bothify("####"),
+            'code' => fake()->bothify('####'),
             'name' => fake()->words(2, true),
             'academic_year' => '2026/2027',
             'subject_id' => Subject::factory(),
             'class_group_id' => ClassGroup::factory(),
             'teacher' => Teacher::factory(),
-            'created_by' => User::factory()
+            'created_by' => User::factory(),
         ];
     }
 
     public function setSubject(Subject $subject): static
     {
-        return $this->state(fn() => [
-            'subject_id' => $subject->id
+        return $this->state(fn () => [
+            'subject_id' => $subject->id,
         ]);
     }
 
     public function setClassGroup(ClassGroup $classGroup): static
     {
-        return $this->state(fn() => [
-            'class_group_id' => $classGroup->id
+        return $this->state(fn () => [
+            'class_group_id' => $classGroup->id,
         ]);
     }
 
     public function setTeacher(Teacher $teacher): static
     {
-        return $this->state(fn() => [
-            'teacher_id' => $teacher->id
+        return $this->state(fn () => [
+            'teacher_id' => $teacher->id,
         ]);
     }
 
     public function createdBy(Admin $admin): static
     {
-        return $this->state(fn() => [
-            'created_by' => $admin->user_id
+        return $this->state(fn () => [
+            'created_by' => $admin->user_id,
         ]);
     }
 }

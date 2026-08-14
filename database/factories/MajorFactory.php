@@ -24,22 +24,22 @@ class MajorFactory extends Factory
                 'RPL',
                 'TKJ',
                 'MM',
-                'TKR'
+                'TKR',
             ]),
             'name' => fake()->randomElement([
                 'rekayasa perangkat lunak',
                 'teknik komputer dan jaringan',
                 'multimedia',
-                'teknik kendaraan ringan'
+                'teknik kendaraan ringan',
             ]),
-            'created_by' => User::factory()
+            'created_by' => User::factory(),
         ];
     }
 
     public function createdBy(Admin $admin): static
     {
-        return $this->state(fn() => [
-            'created_by' => $admin->user_id
+        return $this->state(fn () => [
+            'created_by' => $admin->user_id,
         ]);
     }
 }

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Assignment;
 use App\Models\Student;
 use App\Models\Submission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SubmissionSeeder extends Seeder
@@ -15,8 +14,9 @@ class SubmissionSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!app()->environment('local'))
+        if (! app()->environment('local')) {
             return;
+        }
 
         $student = Student::query()->get(['id'])->first();
 

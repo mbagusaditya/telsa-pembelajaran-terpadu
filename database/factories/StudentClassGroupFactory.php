@@ -23,24 +23,24 @@ class StudentClassGroupFactory extends Factory
             'joined_at' => now(),
             'left_at' => fake()->randomElement([
                 now(),
-                null
+                null,
             ]),
             'student_id' => Student::factory(),
-            'class_group_id' => ClassGroup::factory()
+            'class_group_id' => ClassGroup::factory(),
         ];
     }
 
     public function setStudent(Student $student): static
     {
-        return $this->state(fn() => [
-            'student_id' => $student->id
+        return $this->state(fn () => [
+            'student_id' => $student->id,
         ]);
     }
 
     public function setClassGroup(ClassGroup $classGroup): static
     {
-        return $this->state(fn() => [
-            'class_group_id' => $classGroup->id
+        return $this->state(fn () => [
+            'class_group_id' => $classGroup->id,
         ]);
     }
 }

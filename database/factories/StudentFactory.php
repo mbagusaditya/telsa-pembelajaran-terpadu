@@ -29,14 +29,14 @@ class StudentFactory extends Factory
             'admission_year' => (int) fake()->dateTimeBetween(startDate: '-5 years')->format('Y'),
             'status' => 'active',
             'user_id' => User::factory(),
-            'created_by' => User::factory()
+            'created_by' => User::factory(),
         ];
     }
 
     public function createdBy(Admin $admin): static
     {
         return $this->state(fn (array $attributes) => [
-            'created_by' => $admin->user_id
+            'created_by' => $admin->user_id,
         ]);
     }
 
@@ -56,9 +56,9 @@ class StudentFactory extends Factory
         $sequence = fake()->numerify('####');
 
         return $province
-            . $regency
-            . $district
-            . $date
-            . $sequence;
+            .$regency
+            .$district
+            .$date
+            .$sequence;
     }
 }

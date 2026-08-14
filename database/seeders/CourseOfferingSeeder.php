@@ -7,7 +7,6 @@ use App\Models\ClassGroup;
 use App\Models\CourseOffering;
 use App\Models\Subject;
 use App\Models\Teacher;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CourseOfferingSeeder extends Seeder
@@ -17,8 +16,9 @@ class CourseOfferingSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!app()->environment('local'))
+        if (! app()->environment('local')) {
             return;
+        }
 
         $subject = Subject::query()->get(['id'])->first();
 

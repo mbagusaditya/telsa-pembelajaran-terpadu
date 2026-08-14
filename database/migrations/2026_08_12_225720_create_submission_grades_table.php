@@ -25,7 +25,6 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
-
             $table->foreign('submission_id')
                 ->references('id')
                 ->on('submissions')
