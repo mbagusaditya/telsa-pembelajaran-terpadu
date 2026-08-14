@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -32,5 +33,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function student():HasOne
+    {
+        return $this->hasOne(Student::class, 'user_id');
+    }
+
+    public function teacher():HasOne
+    {
+        return $this->hasOne(Teacher::class, 'user_id');
+    }
+
+    public function admin():HasOne
+    {
+        return $this->hasOne(Admin::class, 'user_id');
     }
 }
