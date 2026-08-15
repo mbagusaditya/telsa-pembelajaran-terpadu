@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\User;
@@ -25,6 +26,8 @@ class StudentSeeder extends Seeder
             'email' => 'user01@gmail.com',
             'password' => 'user123'
         ]);
+
+        $user->assignRole(UserRole::Student->value);
 
         Student::factory()
         ->setUser($user)

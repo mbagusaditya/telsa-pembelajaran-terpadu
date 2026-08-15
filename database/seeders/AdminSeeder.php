@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,8 @@ class AdminSeeder extends Seeder
         ];
 
         $user = User::create($userData);
+
+        $user->assignRole(UserRole::Admin->value);
 
         // create admin
         $adminData = [

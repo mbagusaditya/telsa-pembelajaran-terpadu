@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Http\Requests\Auth\TeacherLoginPostRequest;
 use App\Models\Admin;
 use App\Models\Teacher;
@@ -26,6 +27,8 @@ class TeacherSeeder extends Seeder
             'email' => 'teacher@gmail.com',
             'password' => 'teacher123'
         ]);
+
+        $user->assignRole(UserRole::Teacher->value);
 
         Teacher::factory()
             ->setUser($user)
