@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\TeacherLoginPostRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Auth\LoginService;
 use Inertia\Inertia;
 
 class TeacherLoginController extends Controller
@@ -14,11 +14,11 @@ class TeacherLoginController extends Controller
         return Inertia::render('auth/login/teacher');
     }
 
-    public function login(TeacherLoginPostRequest $request)
+    public function login(TeacherLoginPostRequest $request, LoginService $loginService)
     {
         $credentials = $request->validated();
 
-        if (! Auth::guard('web')->attempt($credentials)) {
+        if (! $loginService->loginAsStaff($credentials)) {
             Inertia::flash('toast', [
                 'message' => 'Email atau Password salah!',
                 'type' => 'error',

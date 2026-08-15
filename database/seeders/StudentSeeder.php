@@ -24,16 +24,16 @@ class StudentSeeder extends Seeder
         // for auth testing purposes
         $user = User::factory()->create([
             'email' => 'user01@gmail.com',
-            'password' => 'user123'
+            'password' => 'user123',
         ]);
 
         $user->assignRole(UserRole::Student->value);
 
         Student::factory()
-        ->setUser($user)
-        ->create([
-            'nis' => '123456'
-        ]);
+            ->setUser($user)
+            ->create([
+                'nis' => '123456',
+            ]);
 
         // dummy data
         Student::factory(100)

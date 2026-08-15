@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AdminLoginPostRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Auth\LoginService;
 use Inertia\Inertia;
 
 class AdminLoginController extends Controller
@@ -14,11 +14,11 @@ class AdminLoginController extends Controller
         return Inertia::render('auth/login/admin');
     }
 
-    public function login(AdminLoginPostRequest $request)
+    public function login(AdminLoginPostRequest $request, LoginService $loginService)
     {
         $credentials = $request->validated();
 
-        if (! Auth::guard('web')->attempt($credentials)) {
+        if (! $loginService->loginAsStaff($credentials)) {
             Inertia::flash('toast', [
                 'message' => 'Email atau Password salah!',
                 'type' => 'error',

@@ -6,18 +6,19 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleAndPermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-     public function run(): void
-     {
-         // Reset cached roles and permissions
-         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+    public function run(): void
+    {
+        // Reset cached roles and permissions
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-         $permissions = [
+        $permissions = [
             'user.view',
             'user.create',
             'user.update',
@@ -84,7 +85,7 @@ class RoleAndPermissionSeeder extends Seeder
         }
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $roles = [
             'student' => [
@@ -203,7 +204,7 @@ class RoleAndPermissionSeeder extends Seeder
             $role->syncPermissions($rolePermissions);
         }
 
-         // $role = Role::create(['name' => 'super-admin']);
-         // $role->givePermissionTo(Permission::all());
-     }
+        // $role = Role::create(['name' => 'super-admin']);
+        // $role->givePermissionTo(Permission::all());
+    }
 }

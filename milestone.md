@@ -3,11 +3,13 @@
 Roadmap pengembangan Learning Management System (LMS).
 
 > Status:
+>
 > - `[ ]` Belum dikerjakan
 > - `[-]` Sedang dikerjakan
 > - `[x]` Selesai
 >
 > Prioritas:
+>
 > - `P0` Critical / blocking
 > - `P1` High
 > - `P2` Medium

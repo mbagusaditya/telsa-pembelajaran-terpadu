@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\StudentLoginPostRequest;
-use App\Models\Student;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Services\Auth\LoginService;
 use Inertia\Inertia;
 
 class StudentLoginController extends Controller
@@ -16,16 +14,11 @@ class StudentLoginController extends Controller
         return Inertia::render('auth/login/student');
     }
 
-    public function login(StudentLoginPostRequest $request)
+    public function login(StudentLoginPostRequest $request, LoginService $loginService)
     {
         $credentials = $request->validated();
 
-        $student = Student::query()
-            ->with(['user'])
-            ->where('nis', $credentials['nis'])
-            ->first(['id', 'nis', 'user_id']);
-
-        if (! ($student && $student->user && Hash::check($credentials['password'], $student->user->password))) {
+        if (! $loginService->loginAsStudent($credentials)) {
             Inertia::flash('toast', [
                 'message' => 'NIS atau Password salah!',
                 'type' => 'error',
@@ -35,7 +28,6 @@ class StudentLoginController extends Controller
             return back();
         }
 
-        Auth::guard('web')->login($student->user);
         $request->session()->regenerate();
 
         Inertia::flash('toast', [

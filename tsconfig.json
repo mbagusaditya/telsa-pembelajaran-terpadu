@@ -27,9 +27,5 @@
         "resources/js/types/global.d.ts",
         "resources/js/types/**/*.d.ts"
     ],
-    "exclude": [
-        "node_modules",
-        "public",
-        "vendor"
-    ]
+    "exclude": ["node_modules", "public", "vendor"]
 }

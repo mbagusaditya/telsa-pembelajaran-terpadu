@@ -42,8 +42,8 @@ class StudentFactory extends Factory
 
     public function setUser(User $user): static
     {
-        return $this->state(fn() => [
-            'user_id' => $user->id
+        return $this->state(fn () => [
+            'user_id' => $user->id,
         ]);
     }
 
