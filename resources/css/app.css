@@ -131,3 +131,9 @@
         @apply font-sans;
     }
 }
+
+@layer utilities {
+    .container {
+        @apply w-[calc(100%-32px)] sm:w-[calc(100%-48px)] md:w-[calc(100%-64px)] lg:w-[calc(100%-80px)] xl:w-[calc(100%-108px)] 2xl:w-300;
+    }
+}

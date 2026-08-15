@@ -47,6 +47,6 @@ Route::middleware(['auth'])->group(function () {
 // =============
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        return redirect()->route('home'); // WIP
+        return inertia('dashboard/home'); // WIP
     })->name('dashboard');
 });
