@@ -7,7 +7,7 @@ use App\Http\Controllers\Auth\TeacherLoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return inertia('index');
+    return inertia('home');
 })->name('home');
 
 // =============
