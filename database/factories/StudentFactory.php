@@ -40,6 +40,13 @@ class StudentFactory extends Factory
         ]);
     }
 
+    public function setUser(User $user): static
+    {
+        return $this->state(fn() => [
+            'user_id' => $user->id
+        ]);
+    }
+
     private function fakeNik(): string
     {
         $province = '33';

@@ -35,4 +35,11 @@ class TeacherFactory extends Factory
             'created_by' => $admin->user_id,
         ]);
     }
+
+    public function setUser(User $user): static
+    {
+        return $this->state(fn() => [
+            'user_id' => $user->id
+        ]);
+    }
 }

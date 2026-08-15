@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Http\Requests\Auth\TeacherLoginPostRequest;
 use App\Models\Admin;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TeacherSeeder extends Seeder
@@ -19,6 +21,17 @@ class TeacherSeeder extends Seeder
 
         $admin = Admin::query()->where('username', 'admin')->get(['user_id'])->first();
 
+        // for auth testing purposes
+        $user = User::factory()->create([
+            'email' => 'teacher@gmail.com',
+            'password' => 'teacher123'
+        ]);
+
+        Teacher::factory()
+            ->setUser($user)
+            ->create();
+
+        // dummy data
         Teacher::factory(20)
             ->createdBy($admin)
             ->create();

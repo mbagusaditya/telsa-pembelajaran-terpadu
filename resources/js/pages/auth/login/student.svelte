@@ -31,9 +31,16 @@
         >
             logo
         </div>
-        <h1 class="text-2xl md:text-3xl text-center mb-8 lg:mb-12">
-            Portal Web Telsa
-        </h1>
+
+        <header class="mb-8 lg:mb-12">
+            <h1
+                class="text-xl md:text-2xl font-semibold leading-tight text-center"
+            >
+                Portal Web SMK Tunas harapan
+            </h1>
+
+            <h4 class="text-normal text-center">Masuk sebagai siswa</h4>
+        </header>
 
         <Card.Root
             class="w-full sm:w-[70%] mx-auto lg:shadow-none lg:ring-0 lg:p-0 lg:rounded-none lg:overflow-visible"
@@ -49,6 +56,7 @@
                             name="nis"
                             id="student-nis"
                             bind:value={form.nis}
+                            aria-invalid={Boolean(form.errors.nis)}
                         />
 
                         {#if form.errors.nis}
@@ -66,10 +74,11 @@
                         <InputGroup.Root>
                             <InputGroup.Input
                                 type={isPasswordRevealed ? 'text' : 'password'}
-                                name="nis"
+                                name="password"
                                 id="student-password"
                                 bind:value={form.password}
                                 autocomplete="current-password"
+                                aria-invalid={Boolean(form.errors.password)}
                             />
                             <InputGroup.Addon align="inline-end">
                                 <InputGroup.Button
@@ -85,6 +94,12 @@
                                 </InputGroup.Button>
                             </InputGroup.Addon>
                         </InputGroup.Root>
+
+                        {#if form.errors.password}
+                            <span class="text-destructive text-normal">
+                                {form.errors.password}
+                            </span>
+                        {/if}
                     </div>
 
                     <div class="flex items-center gap-3 mb-6">
@@ -96,9 +111,7 @@
                         <Label for="student-remember">Ingat saya</Label>
                     </div>
 
-                    <Button type="submit" class="w-full"
-                        >Masuk ruang belajar</Button
-                    >
+                    <Button type="submit" class="w-full">Masuk</Button>
                 </form>
             </Card.Content>
         </Card.Root>
