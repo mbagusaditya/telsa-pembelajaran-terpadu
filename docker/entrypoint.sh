@@ -183,26 +183,6 @@ if [ "$APP_ENV" = "local" ]; then
 fi
 
 # ============================================================
-# Vite
-# ============================================================
-
-if [ "$APP_ENV" = "local" ]; then
-
-    echo "Starting Vite..."
-
-    su-exec www-data \
-        bun run dev -- --host 0.0.0.0 &
-
-else
-
-    echo "Building production assets..."
-
-    su-exec www-data \
-        bun run build
-
-fi
-
-# ============================================================
 # FrankenPHP / Octane
 # ============================================================
 
