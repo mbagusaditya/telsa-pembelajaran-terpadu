@@ -33,6 +33,10 @@ class LoginService
 
     public function loginAsStaff(array $credentials): bool
     {
-        return Auth::guard('web')->attempt($credentials, $credentials['remember'] ?? false);
+        $remember = $credentials['remember'] ?? false;
+
+        unset($credentials['remember']);
+
+        return Auth::guard('web')->attempt($credentials, $remember);
     }
 }
