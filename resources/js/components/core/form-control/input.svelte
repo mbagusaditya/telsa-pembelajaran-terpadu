@@ -9,6 +9,7 @@
         placeholder?: string;
         required?: boolean;
         disabled?: boolean;
+        autofocus?: boolean;
 
         label: string;
         value: string | null;

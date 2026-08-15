@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -39,7 +40,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'appName' => env('APP_NAME'),
-            'auth.user' => Auth::guard('web')->user(),
+            'auth.user' => app(AuthService::class)->getAuthUser(),
         ];
     }
 }

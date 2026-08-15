@@ -17,6 +17,7 @@ Route::middleware(['guest'])->group(function () {
     // =============
     // STUDENT ROUTES
     // =============
+    Route::get('/login', fn() => redirect()->route('auth.login'));
     Route::get('/auth/login', [StudentLoginController::class, 'page'])->name('auth.login');
     Route::post('/auth/login', [StudentLoginController::class, 'login'])->name('auth.login.post');
 

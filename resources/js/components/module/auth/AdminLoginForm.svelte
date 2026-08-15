@@ -28,6 +28,7 @@
                 name="email"
                 placeholder="Masukkan Email"
                 error={form.errors.email}
+                autofocus
                 required
             />
 

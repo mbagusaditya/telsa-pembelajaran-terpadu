@@ -30,6 +30,7 @@
                 name="nis"
                 placeholder="Masukkan NIS"
                 error={form.errors.nis}
+                autofocus
                 required
             />
 
