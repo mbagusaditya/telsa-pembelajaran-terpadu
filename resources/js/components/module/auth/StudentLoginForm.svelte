@@ -1,8 +1,10 @@
 <script lang="ts">
     import * as Card from '@/components/ui/card';
     import { Button } from '@/components/ui/button';
+    import { Spinner } from '@/components/ui/spinner';
     import * as FormControl from '@/components/core/form-control';
-    import { useForm } from '@inertiajs/svelte';
+    import { page, useForm } from '@inertiajs/svelte';
+    import { toast } from 'svelte-sonner';
 
     const form = useForm({
         nis: null,
@@ -13,7 +15,13 @@
     function onsubmit(e: Event) {
         e.preventDefault();
 
-        form.post('/auth/login');
+        form.post('/auth/login', {
+            onFinish: () => {
+                const func = toast[page.flash.toast.type as ToastType];
+
+                func(page.flash.toast.message);
+            },
+        });
     }
 </script>
 
@@ -49,7 +57,17 @@
                 bind:checked={form.remember}
             />
 
-            <Button type="submit" class="w-full mt-3">Masuk</Button>
+            <Button
+                type="submit"
+                class="w-full mt-3"
+                disabled={form.processing}
+            >
+                {#if form.processing}
+                    <Spinner />
+                {:else}
+                    <span>Masuk</span>
+                {/if}
+            </Button>
         </form>
     </Card.Content>
 </Card.Root>

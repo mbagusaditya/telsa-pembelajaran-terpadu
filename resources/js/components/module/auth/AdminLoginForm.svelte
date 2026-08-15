@@ -2,7 +2,8 @@
     import * as Card from '@/components/ui/card';
     import { Button } from '@/components/ui/button';
     import * as FormControl from '@/components/core/form-control';
-    import { useForm } from '@inertiajs/svelte';
+    import { page, useForm } from '@inertiajs/svelte';
+    import { toast } from 'svelte-sonner';
 
     const form = useForm({
         email: null,
@@ -13,7 +14,13 @@
     function onsubmit(e: Event) {
         e.preventDefault();
 
-        form.post('/auth/login/admin');
+        form.post('/auth/login/admin', {
+            onFinish: () => {
+                const func = toast[page.flash.toast.type as ToastType];
+
+                func(page.flash.toast.message);
+            },
+        });
     }
 </script>
 
