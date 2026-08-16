@@ -1,3 +1,5 @@
+import type { AuthUser } from '@/types/user';
+
 type HttpStatusCode =
     200 | 201 | 204 | 400 | 401 | 403 | 404 | 409 | 422 | 429 | 500 | 502 | 503;
 
@@ -7,14 +9,7 @@ declare module '@inertiajs/core' {
     export interface InertiaConfig {
         sharedPageProps: {
             auth: {
-                user: {
-                    id: string;
-                    email: string;
-                    email_verified_at: string;
-                    avatar: string | null;
-                    created_at: string;
-                    updated_at: string;
-                } | null;
+                user: AuthUser | null;
             };
             appName: string;
             httpStatusCodes: HttpStatusCode;

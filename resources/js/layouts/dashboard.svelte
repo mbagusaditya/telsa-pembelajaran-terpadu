@@ -1,23 +1,31 @@
 <script lang="ts">
-    import { Toaster } from '@/components/ui/sonner';
-    import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+    import * as Sidebar from '@/components/ui/sidebar';
     import DashboardSidebar from '@/components/layout/sidebar/dashboard-sidebar.svelte';
+    import DashboardNavbar from '@/components/layout/navbar/dashboard-navbar.svelte';
+    import { type BreadcrumbItem as BreadcrumbItemType } from '@/types/navigation';
+
+    type Props = {
+        breadcrumbItems: BreadcrumbItemType[];
+    };
+
+    const { breadcrumbItems }: Props = $props();
 </script>
 
-<SidebarProvider>
+<Sidebar.Provider>
     <DashboardSidebar />
 
-    <div class="grid grid-cols-1 grid-rows-[auto_1fr] w-full">
-        <nav class="h-16 flex items-center mb-6">
-            <div class="container mx-auto">
-                <SidebarTrigger>toggle</SidebarTrigger>
+    <Sidebar.Inset>
+        <DashboardNavbar {breadcrumbItems} />
+
+        <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div class="grid auto-rows-min gap-4 md:grid-cols-3">
+                <div class="aspect-video rounded-xl bg-muted/50"></div>
+                <div class="aspect-video rounded-xl bg-muted/50"></div>
+                <div class="aspect-video rounded-xl bg-muted/50"></div>
             </div>
-        </nav>
-
-        <div class="container mx-auto">
-            <slot />
+            <div
+                class="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min"
+            ></div>
         </div>
-    </div>
-</SidebarProvider>
-
-<Toaster richColors />
+    </Sidebar.Inset>
+</Sidebar.Provider>
