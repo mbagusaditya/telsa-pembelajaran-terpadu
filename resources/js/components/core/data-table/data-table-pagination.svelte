@@ -1,38 +1,50 @@
 <script lang="ts">
     import ChevronLeft from '@lucide/svelte/icons/chevron-left';
     import ChevronRight from '@lucide/svelte/icons/chevron-right';
+
     import { Button } from '@/components/ui/button';
-    import type { SvelteTable } from '@tanstack/svelte-table';
 
-    let { table }: { table: SvelteTable<any, any> } = $props();
+    import type { DataTablePagination as Pagination } from './types';
 
-    const pagination = $derived(table.atoms.pagination.get());
-    const pageIndex = $derived(pagination?.pageIndex ?? 0);
-    const pageCount = $derived(table.getPageCount());
-    const canPreviousPage = $derived(table.getCanPreviousPage());
-    const canNextPage = $derived(table.getCanNextPage());
+    let {
+        pagination,
+        onPageChange,
+    }: {
+        pagination: Pagination;
+
+        onPageChange?: (page: number) => void;
+    } = $props();
 </script>
 
 <div class="flex items-center justify-between px-2 py-4">
     <div class="text-muted-foreground text-sm">
-        Page {pageIndex + 1} of {pageCount}
+        Page {pagination.currentPage}
+        of {pagination.lastPage}
+
+        <span class="ml-2">
+            ({pagination.total} total)
+        </span>
     </div>
+
     <div class="flex items-center gap-2">
         <Button
             variant="outline"
             size="sm"
-            disabled={!canPreviousPage}
-            onclick={() => table.previousPage()}
+            disabled={pagination.currentPage <= 1}
+            onclick={() => onPageChange?.(pagination.currentPage - 1)}
         >
-            <ChevronLeft class="size-4" /> Previous
+            <ChevronLeft class="size-4" />
+            Previous
         </Button>
+
         <Button
             variant="outline"
             size="sm"
-            disabled={!canNextPage}
-            onclick={() => table.nextPage()}
+            disabled={pagination.currentPage >= pagination.lastPage}
+            onclick={() => onPageChange?.(pagination.currentPage + 1)}
         >
-            Next <ChevronRight class="size-4" />
+            Next
+            <ChevronRight class="size-4" />
         </Button>
     </div>
 </div>

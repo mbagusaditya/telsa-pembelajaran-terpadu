@@ -26,25 +26,9 @@
             label: 'Manajemen siswa',
         },
     ];
-
-    // let filterTable = $state('all')
 </script>
 
 <DashboardLayout {breadcrumbItems} {title}>
-    <div>
-        <!-- <ToggleGroup.Root type="single" variant="outline" bind>
-            <ToggleGroup.Item value="all" aria-label="show all students"
-                >Semua</ToggleGroup.Item
-            >
-            <ToggleGroup.Item value="all" aria-label="show active students"
-                >Aktif</ToggleGroup.Item
-            >
-            <ToggleGroup.Item value="all" aria-label="show graduated students"
-                >Lulus</ToggleGroup.Item
-            >
-        </ToggleGroup.Root> -->
-    </div>
-
-    <StudentTable students={students.data} />
+    <StudentTable {students} />
     <!-- {JSON.stringify(students)} -->
 </DashboardLayout>

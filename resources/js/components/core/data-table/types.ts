@@ -1,29 +1,30 @@
-import type {
-    ColumnDef,
-    PaginationState,
-    RowSelectionState,
-    SortingState,
-    ColumnVisibilityState,
-    RowData,
-} from '@tanstack/svelte-table';
-import type { Snippet } from 'svelte';
+import type { ColumnDef, RowData } from '@tanstack/svelte-table';
+
+import type { DataTableFeatures } from './features';
+
+export type DataTableQuery = {
+    search?: string;
+    page?: number;
+    perPage?: number;
+};
+
+export type DataTablePagination = {
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+};
 
 export type DataTableProps<TData extends RowData> = {
     data: TData[];
-    columns: ColumnDef<typeof import('./features').dataTableFeatures, TData>[];
-    pageSize?: number;
-    enableSorting?: boolean;
-    enableFiltering?: boolean;
-    enablePagination?: boolean;
-    enableRowSelection?: boolean;
-    enableColumnVisibility?: boolean;
+
+    columns: ColumnDef<DataTableFeatures, TData>[];
+
+    pagination?: DataTablePagination;
+
+    query?: DataTableQuery;
+
     emptyMessage?: string;
-    toolbar?: Snippet;
-    pagination?: Snippet;
-};
-export type DataTableState = {
-    sorting: SortingState;
-    pagination: PaginationState;
-    rowSelection: RowSelectionState;
-    columnVisibility: ColumnVisibilityState;
+
+    onQueryChange?: (query: DataTableQuery) => void;
 };

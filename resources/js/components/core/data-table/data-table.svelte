@@ -1,96 +1,59 @@
 <script lang="ts" generics="TData extends RowData">
-    import type {
-        ColumnFiltersState,
-        ColumnVisibilityState,
-        RowSelectionState,
-        SortingState,
-        RowData,
+    import {
+        createTable,
+        FlexRender,
+        type RowData,
     } from '@tanstack/svelte-table';
-    import { createTable, FlexRender } from '@tanstack/svelte-table';
+
     import * as Table from '@/components/ui/table';
+
+    import DataTablePagination from './data-table-pagination.svelte';
+    import DataTableToolbar from './data-table-toolbar.svelte';
+
     import { dataTableFeatures } from './features';
+
     import type { DataTableProps } from './types';
 
     let {
         data,
         columns,
-        pageSize = 10,
-        // enableSorting = true,
-        // enableFiltering = true,
-        // enablePagination = true,
-        // enableRowSelection = false,
-        // enableColumnVisibility = true,
-        emptyMessage = 'No results.',
-        toolbar,
         pagination,
+        query = {},
+        emptyMessage = 'No results.',
+        onQueryChange,
     }: DataTableProps<TData> = $props();
-
-    let sorting = $state<SortingState>([]);
-    let paginationState = $state({ pageIndex: 0, pageSize });
-    let rowSelection = $state<RowSelectionState>({});
-    let columnVisibility = $state<ColumnVisibilityState>({});
-    let columnFilters = $state<ColumnFiltersState>([]);
 
     const table = $derived.by(() =>
         createTable({
             features: dataTableFeatures,
+
             get data() {
                 return data;
             },
+
             columns,
-            state: {
-                get sorting() {
-                    return sorting;
-                },
-                get pagination() {
-                    return paginationState;
-                },
-                get rowSelection() {
-                    return rowSelection;
-                },
-                get columnVisibility() {
-                    return columnVisibility;
-                },
-                get columnFilters() {
-                    return columnFilters;
-                },
-            },
-            onSortingChange: (updater) => {
-                sorting =
-                    typeof updater === 'function' ? updater(sorting) : updater;
-            },
-            onPaginationChange: (updater) => {
-                paginationState =
-                    typeof updater === 'function'
-                        ? updater(paginationState)
-                        : updater;
-            },
-            onRowSelectionChange: (updater) => {
-                rowSelection =
-                    typeof updater === 'function'
-                        ? updater(rowSelection)
-                        : updater;
-            },
-            onColumnVisibilityChange: (updater) => {
-                columnVisibility =
-                    typeof updater === 'function'
-                        ? updater(columnVisibility)
-                        : updater;
-            },
-            onColumnFiltersChange: (updater) => {
-                columnFilters =
-                    typeof updater === 'function'
-                        ? updater(columnFilters)
-                        : updater;
-            },
         }),
     );
+
+    function handleSearch(search: string) {
+        onQueryChange?.({
+            ...query,
+            search,
+            page: 1,
+        });
+    }
+
+    function handlePageChange(page: number) {
+        onQueryChange?.({
+            ...query,
+            page,
+        });
+    }
 </script>
 
 <div class="space-y-4">
-    {#if toolbar}
-        {@render toolbar()}
-    {/if}
+    <DataTableToolbar search={query.search ?? ''} onSearch={handleSearch} />
+
     <div class="rounded-md border">
         <Table.Root>
             <Table.Header>
@@ -106,14 +69,11 @@
                     </Table.Row>
                 {/each}
             </Table.Header>
+
             <Table.Body>
                 {#if table.getRowModel().rows.length > 0}
                     {#each table.getRowModel().rows as row (row.id)}
-                        <Table.Row
-                            data-state={row.getIsSelected()
-                                ? 'selected'
-                                : undefined}
-                        >
+                        <Table.Row>
                             {#each row.getVisibleCells() as cell (cell.id)}
                                 <Table.Cell>
                                     <FlexRender {cell} />
@@ -134,7 +94,8 @@
             </Table.Body>
         </Table.Root>
     </div>
+
     {#if pagination}
-        {@render pagination()}
+        <DataTablePagination {pagination} onPageChange={handlePageChange} />
     {/if}
 </div>
