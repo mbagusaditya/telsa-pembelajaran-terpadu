@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,8 +14,13 @@ class StudentController extends Controller
      */
     public function index()
     {
+        $students = Student::query()
+            ->orderBy('name')
+            ->paginate(20, ['id', 'name']);
+
         return Inertia::render('dashboard/admin/students/index', [
             'title' => env('APP_NAME').' | Manajemen siswa',
+            'students' => $students
         ]);
     }
 
