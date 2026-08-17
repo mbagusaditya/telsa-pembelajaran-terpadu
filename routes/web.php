@@ -5,7 +5,6 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\StudentLoginController;
 use App\Http\Controllers\Auth\TeacherLoginController;
 use App\Http\Controllers\Dashboard\Admin\StudentController as AdminStudentController;
-
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,7 +18,7 @@ Route::middleware(['guest'])->group(function () {
     // =============
     // STUDENT ROUTES
     // =============
-    Route::get('/login', fn() => redirect()->route('auth.login'));
+    Route::get('/login', fn () => redirect()->route('auth.login'));
     Route::get('/auth/login', [StudentLoginController::class, 'page'])->name('auth.login');
     Route::post('/auth/login', [StudentLoginController::class, 'login'])->name('auth.login.post');
 
@@ -48,20 +47,22 @@ Route::middleware(['auth'])->group(function () {
 // DASHBOARD ROUTES
 // =============
 Route::middleware(['auth'])
-->name('dashboard.')
-->prefix('/dashboard')
-->group(function () {
-    Route::get('/', function () {
-        return inertia('dashboard/home'); // WIP
-    })->name('dashboard');
+    ->prefix('/dashboard')
+    ->group(function () {
+        Route::get('/', function () {
+            return inertia('dashboard/home'); // WIP
+        })->name('dashboard');
 
-    // =============
-    // ADMIN DASHBOARD ROUTES
-    // =============
-    Route::middleware(['role:admin'])
-        ->name('admin.')
-        ->prefix('/admin')
-        ->group(function () {
-            Route::resource('/students', AdminStudentController::class);
+        Route::name('dashboard.')
+            ->group(function () {
+                // =============
+                // ADMIN DASHBOARD ROUTES
+                // =============
+                Route::middleware(['role:admin'])
+                    ->name('admin.')
+                    ->prefix('/admin')
+                    ->group(function () {
+                        Route::resource('/students', AdminStudentController::class);
+                    });
+            });
     });
-});

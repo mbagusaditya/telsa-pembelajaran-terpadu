@@ -14,7 +14,7 @@ class StudentController extends Controller
     public function index()
     {
         return Inertia::render('dashboard/admin/students/index', [
-            'title' => env('APP_NAME') . ' | Manajemen siswa'
+            'title' => env('APP_NAME').' | Manajemen siswa',
         ]);
     }
 

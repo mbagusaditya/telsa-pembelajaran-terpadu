@@ -26,11 +26,11 @@ class AuthUserResource extends JsonResource
             'email' => $this->email,
             'avatar' => $this->avatar,
             'role' => $role,
-            'profile' => match($role) {
+            'profile' => match ($role) {
                 'student' => new StudentResource($this->whenLoaded('student')),
                 'teacher' => new TeacherResource($this->whenLoaded('teacher')),
                 'admin' => new AdminResource($this->whenLoaded('admin')),
-            }
+            },
         ];
     }
 }

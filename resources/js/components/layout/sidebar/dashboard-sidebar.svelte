@@ -22,8 +22,9 @@
         admin: AdminItems,
     };
 
-    let dashboardItems: Record<string, DashboardItem[]> =
-        items[page.props.auth.user?.role ?? 'student'];
+    let dashboardItems: Record<string, DashboardItem[]> = $derived(
+        items[page.props.auth.user?.role ?? 'student'](page.url),
+    );
 </script>
 
 <Sidebar.Root bind:ref {collapsible} {...restProps}>

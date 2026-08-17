@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Http\Resources\AuthUserResource;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware

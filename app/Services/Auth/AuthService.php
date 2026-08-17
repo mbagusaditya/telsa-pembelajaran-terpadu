@@ -5,13 +5,14 @@ namespace App\Services\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class AuthService {
-    public function getAuthUser(): User | null
+class AuthService
+{
+    public function getAuthUser(): ?User
     {
         /** @var User|null $user */
         $user = Auth::guard('web')->user();
 
-        if (!$user) {
+        if (! $user) {
             return null;
         }
 

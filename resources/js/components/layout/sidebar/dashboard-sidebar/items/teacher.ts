@@ -13,13 +13,13 @@ import {
     ClipboardCheckIcon,
 } from '@lucide/svelte';
 
-export default {
+export default (currentUrl: string) => ({
     'Main Menu': [
         {
             title: 'Home',
             url: '/dashboard',
             icon: HouseIcon,
-            isActive: true,
+            isActive: currentUrl === '/dashboard',
         },
     ],
 
@@ -28,21 +28,25 @@ export default {
             title: 'Mata pelajaran saya',
             url: '/dashboard/teacher/my-courses',
             icon: BookOpenIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/my-courses'),
         },
         {
             title: 'Kelas saya',
             url: '/dashboard/teacher/classes',
             icon: SchoolIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/classes'),
         },
         {
             title: 'Jadwal saya',
             url: '/dashboard/teacher/schedule',
             icon: CalendarIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/schedule'),
         },
         {
             title: 'Materi',
             url: '/dashboard/teacher/materials',
             icon: LibraryIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/materials'),
         },
     ],
 
@@ -51,6 +55,7 @@ export default {
             title: 'Tugas',
             url: '/dashboard/teacher/assignments',
             icon: ClipboardListIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/assignments'),
         },
         // {
         //     title: 'Ujian',
@@ -66,6 +71,7 @@ export default {
             title: 'Rekap nilai',
             url: '/dashboard/teacher/grade-reports',
             icon: ChartNoAxesCombinedIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/grade-reports'),
         },
     ],
 
@@ -74,11 +80,13 @@ export default {
             title: 'Daftar siswa',
             url: '/dashboard/teacher/students',
             icon: UsersIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/students'),
         },
         {
             title: 'Kehadiran',
             url: '/dashboard/teacher/attendance',
             icon: ClipboardCheckIcon,
+            isActive: currentUrl.startsWith('/dashboard/teacher/attendance'),
         },
     ],
-};
+});

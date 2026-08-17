@@ -25,10 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
         );
 
         $middleware->alias([
-                    'role' => RoleMiddleware::class,
-                    'permission' => PermissionMiddleware::class,
-                    'role_or_permission' => RoleOrPermissionMiddleware::class,
-                ]);
+            'role' => RoleMiddleware::class,
+            'permission' => PermissionMiddleware::class,
+            'role_or_permission' => RoleOrPermissionMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
