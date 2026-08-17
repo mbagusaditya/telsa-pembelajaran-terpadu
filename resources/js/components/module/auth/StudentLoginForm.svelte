@@ -17,6 +17,8 @@
 
         form.post('/auth/login', {
             onFinish: () => {
+                if (!page.flash.toast) return;
+
                 const func = toast[page.flash.toast.type as ToastType];
 
                 func(page.flash.toast.message);
@@ -37,7 +39,7 @@
                 bind:value={form.nis}
                 name="nis"
                 placeholder="Masukkan NIS"
-                error={form.errors.nis}
+                error={form.errors.nis?.[0]}
                 autofocus
                 required
             />
@@ -48,7 +50,7 @@
                 bind:value={form.password}
                 name="password"
                 placeholder="Masukkan kata sandi"
-                error={form.errors.password}
+                error={form.errors.password?.[0]}
                 required
             />
 

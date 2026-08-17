@@ -16,6 +16,8 @@
 
         form.post('/auth/login/teacher', {
             onFinish: () => {
+                if (!page.flash.toast) return;
+
                 const func = toast[page.flash.toast.type as ToastType];
 
                 func(page.flash.toast.message);
@@ -36,7 +38,7 @@
                 bind:value={form.email}
                 name="email"
                 placeholder="Masukkan Email"
-                error={form.errors.email}
+                error={form.errors.email?.[0]}
                 autofocus
                 required
             />
@@ -47,7 +49,7 @@
                 bind:value={form.password}
                 name="password"
                 placeholder="Masukkan kata sandi"
-                error={form.errors.password}
+                error={form.errors.password?.[0]}
                 required
             />
 

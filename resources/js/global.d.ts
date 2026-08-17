@@ -3,9 +3,9 @@ import type { AuthUser } from '@/types/user';
 type HttpStatusCode =
     200 | 201 | 204 | 400 | 401 | 403 | 404 | 409 | 422 | 429 | 500 | 502 | 503;
 
-type ToastType = 'success' | 'error' | 'warning' | 'info';
-
 declare global {
+    type ToastType = 'success' | 'error' | 'warning' | 'info';
+
     type PaginationLink = {
         url: string | null;
         label: string;

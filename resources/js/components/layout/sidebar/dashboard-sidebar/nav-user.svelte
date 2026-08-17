@@ -29,7 +29,7 @@
                     >
                         <Avatar.Root class="size-8 rounded-lg">
                             <Avatar.Image
-                                src={user.avatar}
+                                src={user?.avatar}
                                 alt={getUserName(user)}
                             />
                             <Avatar.Fallback class="rounded-lg"
@@ -42,7 +42,9 @@
                             <span class="truncate font-medium"
                                 >{getUserName(user)}</span
                             >
-                            <span class="truncate text-xs">{user.email}</span>
+                            <span class="truncate text-xs"
+                                >{user?.email ?? 'xxx@xxx.xxx'}</span
+                            >
                         </div>
                         <ChevronsUpDownIcon class="ms-auto size-4" />
                     </Sidebar.MenuButton>
@@ -60,7 +62,7 @@
                     >
                         <Avatar.Root class="size-8 rounded-lg">
                             <Avatar.Image
-                                src={user.avatar}
+                                src={user?.avatar}
                                 alt={getUserName(user)}
                             />
                             <Avatar.Fallback class="rounded-lg"
@@ -73,7 +75,9 @@
                             <span class="truncate font-medium"
                                 >{getUserName(user)}</span
                             >
-                            <span class="truncate text-xs">{user.email}</span>
+                            <span class="truncate text-xs"
+                                >{user?.email ?? 'xxx@xxx.xxx'}</span
+                            >
                         </div>
                     </div>
                 </DropdownMenu.Label>
