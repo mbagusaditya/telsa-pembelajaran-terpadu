@@ -15,10 +15,6 @@
     const sidebar = useSidebar();
 
     let user = $derived(page.props.auth.user);
-
-    $effect(() => {
-        console.log(user);
-    });
 </script>
 
 <Sidebar.Menu>

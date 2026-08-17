@@ -25,7 +25,7 @@ class AuthUserResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'avatar' => $this->avatar,
-            'role' => $this->role,
+            'role' => $role,
             'profile' => match($role) {
                 'student' => new StudentResource($this->whenLoaded('student')),
                 'teacher' => new TeacherResource($this->whenLoaded('teacher')),

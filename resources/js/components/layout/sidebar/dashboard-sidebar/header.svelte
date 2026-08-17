@@ -1,5 +1,4 @@
 <script lang="ts">
-    import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
     import * as Sidebar from '@/components/ui/sidebar/index.js';
     import { GalleryVerticalEndIcon } from '@lucide/svelte';
 </script>

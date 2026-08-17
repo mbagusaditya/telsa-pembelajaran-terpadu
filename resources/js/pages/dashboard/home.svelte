@@ -14,5 +14,5 @@
 </script>
 
 <DashboardLayout {breadcrumbItems}>
-    <!-- <div>hello</div> -->
+    <div>hello</div>
 </DashboardLayout>

@@ -5,14 +5,16 @@
     import { type Component } from 'svelte';
 
     let {
+        label,
         items,
     }: {
+        label: string;
         items: {
             title: string;
             url: string;
             icon?: Component;
             isActive?: boolean;
-            collapsible: boolean;
+            collapsible?: boolean;
             items?: {
                 title: string;
                 url: string;
@@ -22,7 +24,7 @@
 </script>
 
 <Sidebar.Group>
-    <Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
+    <Sidebar.GroupLabel class="capitalize">{label}</Sidebar.GroupLabel>
     <Sidebar.Menu>
         {#each items as item (item.title)}
             {#if item.collapsible}
@@ -76,7 +78,7 @@
                 </Collapsible.Root>
             {:else}
                 <Sidebar.MenuItem>
-                    <Sidebar.MenuButton>
+                    <Sidebar.MenuButton isActive={item.isActive}>
                         {#snippet child({ props })}
                             <a href={item.url} {...props}>
                                 {#if item.icon}
