@@ -7,20 +7,31 @@
 
     import * as Table from '@/components/ui/table';
 
-    import DataTablePagination from './data-table-pagination.svelte';
     import DataTableToolbar from './data-table-toolbar.svelte';
+    import DataTablePagination from './data-table-pagination.svelte';
 
     import { dataTableFeatures } from './features';
 
-    import type { DataTableProps } from './types';
+    import { onDestroy } from 'svelte';
+
+    import type {
+        DataTablePagination as Pagination,
+        DataTableProps,
+    } from './types';
 
     let {
         data,
         columns,
+
         pagination,
-        query = {},
+
         emptyMessage = 'No results.',
+
+        search = $bindable(''),
+
         onQueryChange,
+
+        toolbarActions,
     }: DataTableProps<TData> = $props();
 
     const table = $derived.by(() =>
@@ -35,24 +46,41 @@
         }),
     );
 
-    function handleSearch(search: string) {
-        onQueryChange?.({
-            ...query,
-            search,
-            page: 1,
-        });
+    let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+    function handleSearch(value: string) {
+        search = value;
+
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+        }
+
+        debounceTimer = setTimeout(() => {
+            onQueryChange?.({
+                search,
+                page: 1,
+                perPage: pagination?.perPage ?? 10,
+            });
+        }, 400);
     }
 
     function handlePageChange(page: number) {
         onQueryChange?.({
-            ...query,
+            search,
             page,
+            perPage: pagination?.perPage ?? 10,
         });
     }
+
+    onDestroy(() => {
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+        }
+    });
 </script>
 
 <div class="space-y-4">
-    <DataTableToolbar search={query.search ?? ''} onSearch={handleSearch} />
+    <DataTableToolbar {search} {toolbarActions} onSearch={handleSearch} />
 
     <div class="rounded-md border">
         <Table.Root>

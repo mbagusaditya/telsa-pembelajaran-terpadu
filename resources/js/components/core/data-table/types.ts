@@ -1,17 +1,18 @@
 import type { ColumnDef, RowData } from '@tanstack/svelte-table';
+import type { Snippet } from 'svelte';
 
 import type { DataTableFeatures } from './features';
 
 export type DataTableQuery = {
-    search?: string;
-    page?: number;
-    perPage?: number;
+    search: string;
+    page: number;
+    perPage: number;
 };
 
 export type DataTablePagination = {
-    currentPage: number;
-    lastPage: number;
-    perPage: number;
+    current_page: number;
+    last_page: number;
+    per_page: number;
     total: number;
 };
 
@@ -22,9 +23,11 @@ export type DataTableProps<TData extends RowData> = {
 
     pagination?: DataTablePagination;
 
-    query?: DataTableQuery;
-
     emptyMessage?: string;
 
+    search?: string;
+
     onQueryChange?: (query: DataTableQuery) => void;
+
+    toolbarActions?: Snippet;
 };

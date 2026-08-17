@@ -12,10 +12,13 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->query('search') ?? '';
+
         $students = Student::query()
             ->orderBy('name')
+            ->whereLike('name', '%' . $search . '%')
             ->paginate(20, ['id', 'name']);
 
         return Inertia::render('dashboard/admin/students/index', [

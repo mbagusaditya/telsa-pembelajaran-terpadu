@@ -7,6 +7,7 @@
     } from '@/components/core/data-table';
 
     import { columns, type Student } from './student-columns';
+    import { type Snippet } from 'svelte';
 
     type StudentPagination = {
         data: Student[];
@@ -19,26 +20,30 @@
 
     let {
         students,
+        actions,
     }: {
         students: StudentPagination;
+        actions?: Snippet;
     } = $props();
 
-    let query = $state<DataTableQuery>({
-        search: '',
-        page: students.current_page,
-        perPage: students.per_page,
+    let dataTable = $derived.by(() => {
+        const { data, ...pagination } = students;
+        return {
+            data,
+            pagination,
+        };
     });
 
-    function onQueryChange(nextQuery: DataTableQuery) {
-        query = nextQuery;
+    let search = $state('');
 
+    function onQueryChange(query: DataTableQuery) {
         router.visit('/dashboard/admin/students', {
             data: {
-                search: nextQuery.search || undefined,
+                search: query.search || undefined,
 
-                page: nextQuery.page ?? 1,
+                page: query.page ?? 1,
 
-                perPage: nextQuery.perPage ?? students.per_page,
+                perPage: query.perPage ?? students.per_page,
             },
 
             preserveState: true,
@@ -48,17 +53,10 @@
 </script>
 
 <DataTable
-    data={students.data}
+    data={dataTable.data}
     {columns}
-    pagination={{
-        currentPage: students.current_page,
-
-        lastPage: students.last_page,
-
-        perPage: students.per_page,
-
-        total: students.total,
-    }}
-    {query}
+    pagination={dataTable.pagination}
+    bind:search
     {onQueryChange}
+    toolbarActions={actions}
 />

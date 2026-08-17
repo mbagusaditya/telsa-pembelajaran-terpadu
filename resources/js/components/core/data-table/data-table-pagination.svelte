@@ -18,8 +18,8 @@
 
 <div class="flex items-center justify-between px-2 py-4">
     <div class="text-muted-foreground text-sm">
-        Page {pagination.currentPage}
-        of {pagination.lastPage}
+        Page {pagination.current_page}
+        of {pagination.last_page}
 
         <span class="ml-2">
             ({pagination.total} total)
@@ -30,8 +30,8 @@
         <Button
             variant="outline"
             size="sm"
-            disabled={pagination.currentPage <= 1}
-            onclick={() => onPageChange?.(pagination.currentPage - 1)}
+            disabled={pagination.current_page <= 1}
+            onclick={() => onPageChange?.(pagination.current_page - 1)}
         >
             <ChevronLeft class="size-4" />
             Previous
@@ -40,8 +40,8 @@
         <Button
             variant="outline"
             size="sm"
-            disabled={pagination.currentPage >= pagination.lastPage}
-            onclick={() => onPageChange?.(pagination.currentPage + 1)}
+            disabled={pagination.current_page >= pagination.last_page}
+            onclick={() => onPageChange?.(pagination.current_page + 1)}
         >
             Next
             <ChevronRight class="size-4" />
