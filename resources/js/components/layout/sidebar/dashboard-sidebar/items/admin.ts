@@ -15,7 +15,7 @@ export default {
     'Main Menu': [
         {
             title: 'Home',
-            url: '/dashboard/admin',
+            url: '/dashboard',
             icon: HouseIcon,
         },
     ],

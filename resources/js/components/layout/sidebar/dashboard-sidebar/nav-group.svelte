@@ -3,6 +3,7 @@
     import * as Collapsible from '@/components/ui/collapsible';
     import * as Sidebar from '@/components/ui/sidebar';
     import { type Component } from 'svelte';
+    import { inertia } from '@inertiajs/svelte';
 
     let {
         label,
@@ -62,6 +63,7 @@
                                                     <a
                                                         href={subItem.url}
                                                         {...props}
+                                                        use:inertia
                                                     >
                                                         <span
                                                             >{subItem.title}</span
@@ -80,7 +82,7 @@
                 <Sidebar.MenuItem>
                     <Sidebar.MenuButton isActive={item.isActive}>
                         {#snippet child({ props })}
-                            <a href={item.url} {...props}>
+                            <a href={item.url} {...props} use:inertia>
                                 {#if item.icon}
                                     <item.icon />
                                 {/if}

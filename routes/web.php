@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\StudentLoginController;
 use App\Http\Controllers\Auth\TeacherLoginController;
+use App\Http\Controllers\Dashboard\Admin\StudentController as AdminStudentController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,8 +47,21 @@ Route::middleware(['auth'])->group(function () {
 // =============
 // DASHBOARD ROUTES
 // =============
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
+Route::middleware(['auth'])
+->name('dashboard.')
+->prefix('/dashboard')
+->group(function () {
+    Route::get('/', function () {
         return inertia('dashboard/home'); // WIP
     })->name('dashboard');
+
+    // =============
+    // ADMIN DASHBOARD ROUTES
+    // =============
+    Route::middleware(['role:admin'])
+        ->name('admin.')
+        ->prefix('/admin')
+        ->group(function () {
+            Route::resource('/students', AdminStudentController::class);
+    });
 });

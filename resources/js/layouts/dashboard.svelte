@@ -7,12 +7,17 @@
     import { type Snippet } from 'svelte';
 
     type Props = {
+        title?: string;
         breadcrumbItems: BreadcrumbItemType[];
         children: Snippet<[]>;
     };
 
-    const { breadcrumbItems, children }: Props = $props();
+    const { title, breadcrumbItems, children }: Props = $props();
 </script>
+
+<svelte:head>
+    <title>{title}</title>
+</svelte:head>
 
 <Sidebar.Provider>
     <DashboardSidebar />
