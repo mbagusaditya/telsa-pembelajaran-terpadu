@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { router } from '@inertiajs/svelte';
+    import { inertia, router } from '@inertiajs/svelte';
 
     import {
         DataTable,
@@ -39,10 +39,14 @@
     {columns}
     pagination={students.meta}
     bind:search
-    searchPlaceholder="Cari dengan nama..."
+    searchPlaceholder="Cari dengan NIS / nama..."
     {onQueryChange}
 >
     {#snippet toolbarActions()}
-        <Button variant="default">Tambah siswa</Button>
+        <Button variant="default">
+            <a href="/dashboard/admin/students/create" use:inertia>
+                Tambah siswa
+            </a>
+        </Button>
     {/snippet}
 </DataTable>

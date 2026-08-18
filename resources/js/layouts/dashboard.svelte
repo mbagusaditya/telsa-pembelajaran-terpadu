@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as Sidebar from '@/components/ui/sidebar';
+    import { Toaster } from '@/components/ui/sonner';
     import DashboardSidebar from '@/components/layout/sidebar/dashboard-sidebar.svelte';
     import DashboardNavbar from '@/components/layout/navbar/dashboard-navbar.svelte';
     import { type BreadcrumbItem as BreadcrumbItemType } from '@/types/navigation';
@@ -30,5 +31,7 @@
         </div>
     </Sidebar.Inset>
 </Sidebar.Provider>
+
+<Toaster richColors />
 
 <ModeWatcher />

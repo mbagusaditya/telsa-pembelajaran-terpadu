@@ -42,7 +42,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('dashboard/admin/students/create', [
+            'title' => env('APP_ENV').' | Buat siswa baru',
+        ]);
     }
 
     /**

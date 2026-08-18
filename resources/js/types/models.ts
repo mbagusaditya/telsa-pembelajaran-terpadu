@@ -1,4 +1,5 @@
-export type StudentStatus = 'active' | 'graduated' | 'moved' | 'dropped_out';
+export type StudentStatus =
+    'active' | 'graduated' | 'transferred' | 'dropped_out';
 
 export interface UserSummary {
     id: string;
