@@ -2,6 +2,7 @@
     import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
     import * as Collapsible from '@/components/ui/collapsible';
     import * as Sidebar from '@/components/ui/sidebar';
+    import { CoreSidebarMenuButton } from '@/components/core/sidebar';
     import { type Component } from 'svelte';
     import { inertia } from '@inertiajs/svelte';
 
@@ -37,7 +38,7 @@
                         <Sidebar.MenuItem {...props}>
                             <Collapsible.Trigger>
                                 {#snippet child({ props })}
-                                    <Sidebar.MenuButton
+                                    <CoreSidebarMenuButton
                                         {...props}
                                         tooltipContent={item.title}
                                     >
@@ -50,7 +51,7 @@
                                         <ChevronRightIcon
                                             class="ms-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                                         />
-                                    </Sidebar.MenuButton>
+                                    </CoreSidebarMenuButton>
                                 {/snippet}
                             </Collapsible.Trigger>
 
@@ -80,7 +81,7 @@
                 </Collapsible.Root>
             {:else}
                 <Sidebar.MenuItem>
-                    <Sidebar.MenuButton isActive={item.isActive}>
+                    <CoreSidebarMenuButton isActive={item.isActive}>
                         {#snippet child({ props })}
                             <a href={item.url} {...props} use:inertia>
                                 {#if item.icon}
@@ -90,7 +91,7 @@
                                 <span>{item.title}</span>
                             </a>
                         {/snippet}
-                    </Sidebar.MenuButton>
+                    </CoreSidebarMenuButton>
                 </Sidebar.MenuItem>
             {/if}
         {/each}
