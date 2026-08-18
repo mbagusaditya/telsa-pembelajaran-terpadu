@@ -4,11 +4,7 @@
     import { Calendar } from '@/components/ui/calendar';
     import * as Popover from '@/components/ui/popover';
     import { Calendar as CalendarIcon } from '@lucide/svelte';
-    import {
-        CalendarDate,
-        parseDate,
-        type DateValue,
-    } from '@internationalized/date';
+    import { parseDate, type DateValue } from '@internationalized/date';
 
     type Props = {
         id: string;
@@ -40,6 +36,7 @@
     // Konversi string 'YYYY-MM-DD' ke DateValue untuk Calendar shadcn
     let internalDate = $derived.by<DateValue | undefined>(() => {
         if (!value) return undefined;
+
         try {
             return parseDate(value);
         } catch {
@@ -54,7 +51,9 @@
     // Format tampilan label di trigger (e.g. "17 Agustus 2024")
     let displayFormattedDate = $derived.by(() => {
         if (!internalDate) return null;
+
         const jsDate = internalDate.toDate('Asia/Jakarta');
+
         return new Intl.DateTimeFormat('id-ID', {
             day: 'numeric',
             month: 'long',
@@ -68,6 +67,7 @@
         } else {
             value = null;
         }
+
         open = false;
     }
 </script>
@@ -97,6 +97,7 @@
                     aria-describedby={error ? `${id}-error` : undefined}
                 >
                     <CalendarIcon class="mr-2 h-4 w-4 shrink-0 opacity-70" />
+
                     <span class="truncate"
                         >{displayFormattedDate || placeholder}</span
                     >
