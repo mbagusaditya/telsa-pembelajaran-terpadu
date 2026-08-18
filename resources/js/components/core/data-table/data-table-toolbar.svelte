@@ -18,11 +18,13 @@
     } = $props();
 </script>
 
-<div class="flex items-center justify-between gap-4">
+<div
+    class="grid grid-rows-2 grid-cols-1 sm:flex items-center justify-between gap-4"
+>
     <Input
         value={search}
         placeholder={searchPlaceholder}
-        class="max-w-sm"
+        class="w-full sm:max-w-sm"
         oninput={(event) => {
             onSearch?.(event.currentTarget.value);
         }}
