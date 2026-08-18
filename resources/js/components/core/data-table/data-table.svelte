@@ -3,6 +3,7 @@
         createTable,
         FlexRender,
         type RowData,
+        type ColumnDef,
     } from '@tanstack/svelte-table';
 
     import * as Table from '@/components/ui/table';
@@ -11,8 +12,6 @@
     import DataTablePagination from './data-table-pagination.svelte';
 
     import { dataTableFeatures } from './features';
-
-    import { onDestroy } from 'svelte';
 
     import type {
         DataTablePagination as Pagination,
@@ -28,11 +27,31 @@
         emptyMessage = 'No results.',
 
         search = $bindable(''),
+        searchPlaceholder = 'Search...',
 
         onQueryChange,
 
         toolbarActions,
+
+        withRowNumber = true,
     }: DataTableProps<TData> = $props();
+
+    // columns configuration
+    const allColumns = $derived.by(() => {
+        const rowNumberCol: ColumnDef<typeof dataTableFeatures, TData> = {
+            id: '_row_number',
+            header: () => '#',
+            cell: ({ row }) => {
+                const currentPage = pagination?.current_page ?? 1;
+                const perPage = pagination?.per_page ?? 20;
+                return (currentPage - 1) * perPage + row.index + 1;
+            },
+            enableSorting: false,
+            enableHiding: false,
+        };
+
+        return withRowNumber ? [rowNumberCol, ...columns] : columns;
+    });
 
     const table = $derived.by(() =>
         createTable({
@@ -42,10 +61,21 @@
                 return data;
             },
 
-            columns,
+            columns: allColumns,
+
+            manualPagination: true,
+            pageCount: pagination?.last_page ?? -1,
+            rowCount: pagination?.total,
+            initialState: {
+                pagination: {
+                    pageIndex: (pagination?.current_page ?? 1) - 1, // TanStack index mulai dari 0
+                    pageSize: pagination?.per_page ?? 20,
+                },
+            },
         }),
     );
 
+    // debounce setting for searching
     let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
     function handleSearch(value: string) {
@@ -59,7 +89,7 @@
             onQueryChange?.({
                 search,
                 page: 1,
-                perPage: pagination?.perPage ?? 10,
+                perPage: pagination?.per_page ?? 20,
             });
         }, 400);
     }
@@ -68,19 +98,27 @@
         onQueryChange?.({
             search,
             page,
-            perPage: pagination?.perPage ?? 10,
+            perPage: pagination?.per_page ?? 20,
         });
     }
 
-    onDestroy(() => {
-        if (debounceTimer) {
-            clearTimeout(debounceTimer);
-        }
+    $effect(() => {
+        // onDestroy
+        return () => {
+            if (debounceTimer) {
+                clearTimeout(debounceTimer);
+            }
+        };
     });
 </script>
 
 <div class="space-y-4">
-    <DataTableToolbar {search} {toolbarActions} onSearch={handleSearch} />
+    <DataTableToolbar
+        {search}
+        {toolbarActions}
+        onSearch={handleSearch}
+        {searchPlaceholder}
+    />
 
     <div class="rounded-md border">
         <Table.Root>
@@ -112,7 +150,7 @@
                 {:else}
                     <Table.Row>
                         <Table.Cell
-                            colspan={columns.length}
+                            colspan={allColumns.length}
                             class="h-24 text-center"
                         >
                             {emptyMessage}

@@ -26,8 +26,11 @@ export type DataTableProps<TData extends RowData> = {
     emptyMessage?: string;
 
     search?: string;
+    searchPlaceholder?: string;
 
     onQueryChange?: (query: DataTableQuery) => void;
 
     toolbarActions?: Snippet;
+
+    withRowNumber?: boolean;
 };

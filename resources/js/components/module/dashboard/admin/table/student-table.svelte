@@ -5,9 +5,9 @@
         DataTable,
         type DataTableQuery,
     } from '@/components/core/data-table';
+    import { Button } from '@/components/ui/button';
 
     import { columns, type Student } from './student-columns';
-    import { type Snippet } from 'svelte';
 
     type StudentPagination = {
         data: Student[];
@@ -20,10 +20,8 @@
 
     let {
         students,
-        actions,
     }: {
         students: StudentPagination;
-        actions?: Snippet;
     } = $props();
 
     let dataTable = $derived.by(() => {
@@ -43,7 +41,7 @@
 
                 page: query.page ?? 1,
 
-                perPage: query.perPage ?? students.per_page,
+                perPage: query.perPage ?? students.per_page ?? 20,
             },
 
             preserveState: true,
@@ -57,6 +55,10 @@
     {columns}
     pagination={dataTable.pagination}
     bind:search
+    searchPlaceholder="Cari dengan nama..."
     {onQueryChange}
-    toolbarActions={actions}
-/>
+>
+    {#snippet toolbarActions()}
+        <Button variant="default">Tambah siswa</Button>
+    {/snippet}
+</DataTable>

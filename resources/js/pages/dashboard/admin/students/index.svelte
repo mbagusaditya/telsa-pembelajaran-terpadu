@@ -30,5 +30,5 @@
 
 <DashboardLayout {breadcrumbItems} {title}>
     <StudentTable {students} />
-    <!-- {JSON.stringify(students)} -->
+    <!-- {JSON.stringify(students.data)} -->
 </DashboardLayout>

@@ -5,10 +5,12 @@
 
     let {
         search = '',
+        searchPlaceholder = 'Search...',
         onSearch,
         toolbarActions,
     }: {
         search?: string;
+        searchPlaceholder?: string;
 
         onSearch?: (value: string) => void;
 
@@ -19,7 +21,7 @@
 <div class="flex items-center justify-between gap-4">
     <Input
         value={search}
-        placeholder="Search..."
+        placeholder={searchPlaceholder}
         class="max-w-sm"
         oninput={(event) => {
             onSearch?.(event.currentTarget.value);

@@ -2,7 +2,7 @@ import {
     columnFilteringFeature,
     columnVisibilityFeature,
     createFilteredRowModel,
-    createPaginatedRowModel,
+    // createPaginatedRowModel,
     createSortedRowModel,
     rowPaginationFeature,
     rowSelectionFeature,
@@ -17,7 +17,7 @@ export const dataTableFeatures = tableFeatures({
     columnFilteringFeature,
     columnVisibilityFeature,
     sortedRowModel: createSortedRowModel(),
-    paginatedRowModel: createPaginatedRowModel(),
+    // paginatedRowModel: createPaginatedRowModel(),
     filteredRowModel: createFilteredRowModel(),
 });
 
