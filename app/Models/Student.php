@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use Database\Factories\StudentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'nis',
     'nisn',
     'name',
+    'gender',
     'born_date',
     'born_place',
     'admission_year',
@@ -35,6 +37,7 @@ class Student extends Model
         return [
             'admission_year' => 'integer',
             'born_date' => 'date',
+            'gender' => Gender::class,
         ];
     }
 

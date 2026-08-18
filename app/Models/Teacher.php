@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use Database\Factories\TeacherFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'wa_number',
     'user_id',
     'joined_at',
+    'gender',
     'created_by',
 ])]
 class Teacher extends Model
@@ -25,6 +27,13 @@ class Teacher extends Model
     protected $keyType = 'string';
 
     public $incrementing = false;
+
+    public function casts(): array
+    {
+        return [
+            'gender' => Gender::class
+        ];
+    }
 
     public function user(): BelongsTo
     {

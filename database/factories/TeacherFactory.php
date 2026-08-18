@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Gender;
 use App\Models\Admin;
 use App\Models\Teacher;
 use App\Models\User;
@@ -23,6 +24,7 @@ class TeacherFactory extends Factory
             'nip' => fake()->unique()->numerify('########'),
             'name' => fake()->name(),
             'wa_number' => fake()->numerify('08##########'),
+            'gender' => fake()->randomElement(Gender::cases()),
             'user_id' => User::factory(),
             'created_by' => User::factory(),
             'joined_at' => fake()->dateTimeBetween(startDate: '-20 years')->format('Y-m-d'),

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Gender;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\User;
@@ -26,6 +27,7 @@ class StudentFactory extends Factory
             'name' => fake()->name(),
             'born_date' => fake()->date(),
             'born_place' => fake()->city(),
+            'gender' => fake()->randomElement(Gender::cases()),
             'admission_year' => (int) fake()->dateTimeBetween(startDate: '-5 years')->format('Y'),
             'status' => 'active',
             'user_id' => User::factory(),

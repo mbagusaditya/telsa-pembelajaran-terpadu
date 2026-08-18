@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('born_place', 100);
             $table->unsignedSmallInteger('admission_year');
             $table->string('status');
+            $table->string('gender', 10);
             $table->uuid('user_id')->nullable();
             $table->uuid('created_by')->nullable();
             $table->timestamps();
