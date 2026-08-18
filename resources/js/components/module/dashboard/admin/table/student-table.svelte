@@ -43,10 +43,8 @@
     {onQueryChange}
 >
     {#snippet toolbarActions()}
-        <Button variant="default">
-            <a href="/dashboard/admin/students/create" use:inertia>
-                Tambah siswa
-            </a>
-        </Button>
+        <a href="/dashboard/admin/students/create" class="w-fit" use:inertia>
+            <Button variant="default">Tambah siswa</Button>
+        </a>
     {/snippet}
 </DataTable>

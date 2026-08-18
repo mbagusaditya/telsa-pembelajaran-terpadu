@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Student\CreateStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use App\Services\StudentService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -50,9 +52,30 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+     public function store(CreateStudentRequest $request, StudentService $studentService)
+     {
+        $student = $studentService->create(
+            $request->validated(),
+            $request->file('avatar')
+        );
+
+        if (! $student) {
+            Inertia::flash('toast', [
+                'message' => 'Gagal menambahkan siswa. Silakan coba lagi.',
+                'type'    => 'error',
+                'code'    => 500,
+            ]);
+
+            return back();
+        }
+
+        Inertia::flash('toast', [
+            'message' => 'Siswa berhasil ditambahkan!',
+            'type'    => 'success',
+            'code'    => 201,
+        ]);
+
+        return back();
     }
 
     /**

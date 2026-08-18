@@ -158,4 +158,16 @@ return [
     'uppercase' => ':Attribute harus berupa huruf kapital.',
     'url' => 'Format :attribute tidak valid.',
     'uuid' => ':Attribute harus merupakan UUID yang valid.',
+    'attributes' => [
+        'name'           => 'nama lengkap',
+        'email'          => 'alamat email',
+        'nik'            => 'NIK',
+        'gender'         => 'jenis kelamin',
+        'nis'            => 'NIS',
+        'nisn'           => 'NISN',
+        'born_place'     => 'tempat lahir',
+        'born_date'      => 'tanggal lahir',
+        'admission_year' => 'tahun masuk',
+        'status'         => 'status',
+    ],
 ];

@@ -18,6 +18,7 @@
         born_date: '2004-01-01',
         admission_year: '4003',
         status: 'active',
+        avatar: null as File | null,
     });
 
     const genderOptions = [
@@ -56,8 +57,13 @@
         toastId = toast.loading('Sedang menyimpan');
 
         form.post('/dashboard/admin/students', {
+            preserveScroll: true,
             onFinish: () => {
-                if (!page.flash.toast) return;
+                if (!page.flash.toast) {
+                    toast.dismiss(toastId);
+
+                    return;
+                }
 
                 const func = toast[page.flash.toast.type as ToastType];
 
@@ -99,7 +105,7 @@
                 id="student-name"
                 label="Nama siswa"
                 bind:value={form.name}
-                error={form.errors.name?.[0]}
+                error={form.errors.name}
                 placeholder="Masukkan nama siswa"
                 required
                 autofocus
@@ -109,7 +115,7 @@
                 id="student-email"
                 label="Email siswa"
                 bind:value={form.email}
-                error={form.errors.email?.[0]}
+                error={form.errors.email}
                 placeholder="Masukkan email siswa"
                 required
             />
@@ -118,7 +124,7 @@
                 id="student-nik"
                 label="NIK siswa"
                 bind:value={form.nik}
-                error={form.errors.nik?.[0]}
+                error={form.errors.nik}
                 placeholder="Masukkan NIK siswa"
                 required
             />
@@ -127,7 +133,7 @@
                 id="student-gender"
                 label="Jenis kelamin siswa"
                 bind:value={form.gender}
-                error={form.errors.gender?.[0]}
+                error={form.errors.gender}
                 placeholder="Masukkan jenis kelamin siswa"
                 options={genderOptions}
                 required
@@ -137,7 +143,7 @@
                 id="student-nis"
                 label="NIS siswa"
                 bind:value={form.nis}
-                error={form.errors.nisn?.[0]}
+                error={form.errors.nis}
                 placeholder="Masukkan NIS siswa"
                 required
             />
@@ -146,7 +152,7 @@
                 id="student-nisn"
                 label="NISN siswa"
                 bind:value={form.nisn}
-                error={form.errors.nisn?.[0]}
+                error={form.errors.nisn}
                 placeholder="Masukkan NISN siswa"
                 required
             />
@@ -155,7 +161,7 @@
                 id="student-born-place"
                 label="Tempat lahir siswa"
                 bind:value={form.born_place}
-                error={form.errors.born_place?.[0]}
+                error={form.errors.born_place}
                 placeholder="Masukkan tempat lahir siswa"
                 required
             />
@@ -164,7 +170,7 @@
                 id="student-born-date"
                 label="Tanggal lahir siswa"
                 bind:value={form.born_date}
-                error={form.errors.born_date?.[0]}
+                error={form.errors.born_date}
                 placeholder="Masukkan tanggal lahir siswa"
                 required
             />
@@ -173,7 +179,7 @@
                 id="student-admission-year"
                 label="Tahun masuk siswa"
                 bind:value={form.admission_year}
-                error={form.errors.admission_year?.[0]}
+                error={form.errors.admission_year}
                 placeholder="Masukkan tahun masuk siswa"
                 required
             />
@@ -182,10 +188,25 @@
                 id="student-status"
                 label="Status siswa"
                 bind:value={form.status}
-                error={form.errors.status?.[0]}
+                error={form.errors.status}
                 placeholder="Masukkan status siswa"
                 options={statusOptions}
                 required
+            />
+
+            <FormControl.Dropzone
+                id="student-avatar"
+                label="Avatar siswa"
+                bind:file={form.avatar}
+                error={form.errors.avatar}
+                accept=".png,.jpg,.jpeg,.webp,.pdf"
+                maxSizeMb={2}
+            />
+
+            <FormControl.PreviewImage
+                label="Preview avatar"
+                bind:file={form.avatar}
+                removable
             />
 
             <div class="md:col-span-2 flex gap-3 justify-end">

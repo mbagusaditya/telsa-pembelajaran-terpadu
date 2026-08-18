@@ -43,7 +43,7 @@ declare module '@inertiajs/core' {
             };
         };
 
-        errorValueType: string[];
+        errorValueType: string;
 
         layoutProps: {
             title: string;

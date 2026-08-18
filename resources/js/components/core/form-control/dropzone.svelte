@@ -1,15 +1,16 @@
 <script lang="ts">
     import { Label } from '@/components/ui/label';
     import { Button } from '@/components/ui/button';
-    import { UploadCloud, FileText, X, AlertCircle } from 'lucide-svelte';
+    import { UploadCloud, FileText, X, AlertCircle } from '@lucide/svelte';
 
     interface Props {
         id: string;
         label?: string;
-        error?: string;
+        error?: string | null;
         description?: string;
         accept?: string; // misal: ".pdf,.docx,.zip" atau "image/*"
         maxSizeMb?: number; // default: 10MB
+        required?: boolean;
         disabled?: boolean;
         file?: File | null;
         onFileChange?: (file: File | null) => void;
@@ -22,6 +23,7 @@
         description,
         accept = '.pdf,.doc,.docx,.zip,.rar',
         maxSizeMb = 10,
+        required = false,
         disabled = false,
         file = $bindable(null),
         onFileChange,
@@ -36,9 +38,11 @@
 
     function formatFileSize(bytes: number): string {
         if (bytes === 0) return '0 B';
+
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
+
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
@@ -57,6 +61,7 @@
 
     function handleFileSelect(e: Event) {
         const target = e.target as HTMLInputElement;
+
         if (target.files && target.files.length > 0) {
             validateAndAssignFile(target.files[0]);
         }
@@ -64,7 +69,9 @@
 
     function handleDrop(e: DragEvent) {
         e.preventDefault();
+
         isDragging = false;
+
         if (disabled) return;
 
         if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
@@ -74,26 +81,33 @@
 
     function handleDragOver(e: DragEvent) {
         e.preventDefault();
+
         if (!disabled) isDragging = true;
     }
 
     function handleDragLeave(e: DragEvent) {
         e.preventDefault();
+
         isDragging = false;
     }
 
     function removeFile() {
         file = null;
         clientError = null;
+
         if (fileInputRef) fileInputRef.value = '';
+
         onFileChange?.(null);
     }
 </script>
 
-<div class="space-y-1.5 w-full">
+<div class="flex flex-col gap-2 mb-3">
     {#if label}
         <Label for={id} class={displayError ? 'text-destructive' : ''}>
             {label}
+            {#if required}
+                <span class="text-red-600">*</span>
+            {/if}
         </Label>
     {/if}
 
@@ -103,30 +117,34 @@
         bind:this={fileInputRef}
         type="file"
         {accept}
+        {required}
         {disabled}
         onchange={handleFileSelect}
+        aria-invalid={Boolean(displayError)}
+        aria-describedby={displayError ? `${id}-error` : undefined}
         class="hidden"
     />
 
     {#if !file}
-        <!-- Area Dropzone Saat Kosong -->
-        <div
-            role="region"
-            aria-label="File upload dropzone"
+        <!-- Area Dropzone Saat Kosong (Menggunakan Button Semantik) -->
+        <button
+            type="button"
+            aria-label={label || 'Unggah file'}
             ondrop={handleDrop}
             ondragover={handleDragOver}
             ondragleave={handleDragLeave}
             onclick={() => fileInputRef?.click()}
-            onkeydown={(e) => e.key === 'Enter' && fileInputRef?.click()}
-            tabindex="0"
-            class="relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors
-                {isDragging
+            {disabled}
+            class="relative flex w-full flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors text-left font-normal
+                    {isDragging
                 ? 'border-primary bg-primary/5'
                 : 'border-muted-foreground/25 hover:bg-muted/50'}
-                {displayError ? 'border-destructive bg-destructive/5' : ''}
-                {disabled ? 'opacity-60 cursor-not-allowed' : ''}"
+                    {displayError ? 'border-destructive bg-destructive/5' : ''}
+                    {disabled ? 'opacity-60 cursor-not-allowed' : ''}"
         >
-            <div class="flex flex-col items-center text-center space-y-2">
+            <div
+                class="flex flex-col items-center text-center space-y-2 pointer-events-none"
+            >
                 <div class="p-3 rounded-full bg-muted">
                     <UploadCloud class="w-6 h-6 text-muted-foreground" />
                 </div>
@@ -139,7 +157,7 @@
                     Format: {accept} (Maks. {maxSizeMb}MB)
                 </p>
             </div>
-        </div>
+        </button>
     {:else}
         <!-- Tampilan File Terpilih (Preview Card) -->
         <div
@@ -175,11 +193,12 @@
     {/if}
 
     {#if displayError}
-        <p
+        <span
+            id={`${id}-error`}
             class="text-xs font-medium text-destructive flex items-center gap-1 mt-1"
         >
             <AlertCircle class="w-3.5 h-3.5" />
             {displayError}
-        </p>
+        </span>
     {/if}
 </div>
