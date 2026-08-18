@@ -1,24 +1,25 @@
-import type { ColumnDef } from '@tanstack/svelte-table';
-
 import {
     createAppColumnHelper,
-    type DataTableFeatures,
+    type DataTableColumnDef,
 } from '@/components/core/data-table';
 
-export type Student = {
-    id: number;
-    name: string;
-};
+import { type Student } from '@/types/models';
 
 const columnHelper = createAppColumnHelper<Student>();
 
-export const columns: ColumnDef<DataTableFeatures, Student>[] =
-    columnHelper.columns([
-        columnHelper.accessor('id', {
-            header: 'ID',
+export const columns: DataTableColumnDef<Student, any>[] = columnHelper.columns(
+    [
+        columnHelper.accessor('nis', {
+            header: 'NIS',
         }),
-
         columnHelper.accessor('name', {
-            header: 'Name',
+            header: 'Nama',
         }),
-    ]);
+        columnHelper.accessor('admission_year', {
+            header: 'Angkatan',
+        }),
+        columnHelper.accessor('status', {
+            header: 'Status',
+        }),
+    ],
+);

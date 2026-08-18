@@ -13,6 +13,7 @@ export { dataTableFeatures } from './features';
 export type { DataTableFeatures } from './features';
 
 export type {
+    DataTableColumnDef,
     DataTableProps,
     DataTableQuery,
     DataTablePagination as DataTablePaginationType,

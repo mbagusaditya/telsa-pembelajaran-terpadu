@@ -34,6 +34,7 @@ class Student extends Model
     {
         return [
             'admission_year' => 'integer',
+            'born_date' => 'date',
         ];
     }
 

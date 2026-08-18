@@ -11,12 +11,9 @@
     import DataTableToolbar from './data-table-toolbar.svelte';
     import DataTablePagination from './data-table-pagination.svelte';
 
-    import { dataTableFeatures } from './features';
+    import { dataTableFeatures, type DataTableFeatures } from './features';
 
-    import type {
-        DataTablePagination as Pagination,
-        DataTableProps,
-    } from './types';
+    import type { DataTableProps } from './types';
 
     let {
         data,
@@ -38,7 +35,7 @@
 
     // columns configuration
     const allColumns = $derived.by(() => {
-        const rowNumberCol: ColumnDef<typeof dataTableFeatures, TData> = {
+        const rowNumberCol: ColumnDef<DataTableFeatures, TData> = {
             id: '_row_number',
             header: () => '#',
             cell: ({ row }) => {

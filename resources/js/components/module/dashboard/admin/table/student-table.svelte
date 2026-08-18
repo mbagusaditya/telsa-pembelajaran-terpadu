@@ -7,30 +7,14 @@
     } from '@/components/core/data-table';
     import { Button } from '@/components/ui/button';
 
-    import { columns, type Student } from './student-columns';
-
-    type StudentPagination = {
-        data: Student[];
-
-        current_page: number;
-        last_page: number;
-        per_page: number;
-        total: number;
-    };
+    import { columns } from './student-columns';
+    import { type Student } from '@/types/models';
 
     let {
         students,
     }: {
-        students: StudentPagination;
+        students: PaginatedResponse<Student>;
     } = $props();
-
-    let dataTable = $derived.by(() => {
-        const { data, ...pagination } = students;
-        return {
-            data,
-            pagination,
-        };
-    });
 
     let search = $state('');
 
@@ -41,7 +25,7 @@
 
                 page: query.page ?? 1,
 
-                perPage: query.perPage ?? students.per_page ?? 20,
+                perPage: query.perPage ?? 20,
             },
 
             preserveState: true,
@@ -51,9 +35,9 @@
 </script>
 
 <DataTable
-    data={dataTable.data}
+    data={students.data}
     {columns}
-    pagination={dataTable.pagination}
+    pagination={students.meta}
     bind:search
     searchPlaceholder="Cari dengan nama..."
     {onQueryChange}

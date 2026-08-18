@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,16 +15,25 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->query('search') ?? '';
+        $perPage = (int) $request->input('perPage', 20);
+        $search = $request->input('search');
 
         $students = Student::query()
             ->orderBy('name')
-            ->whereLike('name', '%' . $search . '%')
-            ->paginate(20, ['id', 'name']);
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('nis', 'like', "%{$search}%")
+                        ->orWhere('nisn', 'like', "%{$search}%");
+                });
+            })
+            ->paginate($perPage)
+            ->withQueryString();
 
         return Inertia::render('dashboard/admin/students/index', [
             'title' => env('APP_NAME').' | Manajemen siswa',
-            'students' => $students
+            'students' => StudentResource::collection($students),
+            'filter' => compact('perPage', 'search')
         ]);
     }
 

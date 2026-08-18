@@ -3,6 +3,12 @@ import type { Snippet } from 'svelte';
 
 import type { DataTableFeatures } from './features';
 
+export type DataTableColumnDef<TData extends RowData, TValue = any> = ColumnDef<
+    DataTableFeatures,
+    TData,
+    TValue
+>;
+
 export type DataTableQuery = {
     search: string;
     page: number;
@@ -19,7 +25,7 @@ export type DataTablePagination = {
 export type DataTableProps<TData extends RowData> = {
     data: TData[];
 
-    columns: ColumnDef<DataTableFeatures, TData>[];
+    columns: DataTableColumnDef<TData>[];
 
     pagination?: DataTablePagination;
 
