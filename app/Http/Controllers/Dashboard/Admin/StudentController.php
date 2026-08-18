@@ -33,7 +33,7 @@ class StudentController extends Controller
         return Inertia::render('dashboard/admin/students/index', [
             'title' => env('APP_NAME').' | Manajemen siswa',
             'students' => StudentResource::collection($students),
-            'filter' => compact('perPage', 'search')
+            'filter' => compact('perPage', 'search'),
         ]);
     }
 
