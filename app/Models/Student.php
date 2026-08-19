@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Gender;
+use App\Enums\StudentStatus;
 use Database\Factories\StudentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -38,6 +39,7 @@ class Student extends Model
             'admission_year' => 'integer',
             'born_date' => 'date',
             'gender' => Gender::class,
+            'status' => StudentStatus::class,
         ];
     }
 
