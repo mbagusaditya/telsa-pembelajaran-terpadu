@@ -93,13 +93,11 @@
                 </Button>
             </a>
 
-            <Button
-                variant="ghost"
-                size="icon"
-                href={`/dashboard/admin/students/${row.id}/edit`}
-            >
-                <SquarePenIcon class="w-4 h-4" />
-            </Button>
+            <a href={`/dashboard/admin/students/${row.id}/edit`} use:inertia>
+                <Button variant="ghost" size="icon">
+                    <SquarePenIcon class="w-4 h-4" />
+                </Button>
+            </a>
 
             <Button
                 variant="ghost"

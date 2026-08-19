@@ -4,6 +4,7 @@
     import * as Breadcrumb from '@/components/ui/breadcrumb';
     import * as DropdownMenu from '@/components/ui/dropdown-menu';
     import { type BreadcrumbItem as BreadcrumbItemType } from '@/types/navigation';
+    import { inertia } from '@inertiajs/svelte';
 
     type Props = {
         breadcrumbItems: BreadcrumbItemType[];
@@ -36,7 +37,7 @@
                             {#each breadcrumbItems.slice(0, breadcrumbItems.length - 1) as item}
                                 <DropdownMenu.Item>
                                     {#if item.href}
-                                        <a href={item.href}>
+                                        <a href={item.href} use:inertia>
                                             {item.label}
                                         </a>
                                     {:else}
@@ -53,8 +54,12 @@
                 {#each breadcrumbItems as item, index}
                     <Breadcrumb.Item class="hidden last:block md:block">
                         {#if item.href}
-                            <Breadcrumb.Link href={item.href}>
-                                {item.label}
+                            <Breadcrumb.Link>
+                                {#snippet child()}
+                                    <a href={item.href} use:inertia>
+                                        {item.label}
+                                    </a>
+                                {/snippet}
                             </Breadcrumb.Link>
                         {:else}
                             <Breadcrumb.Page>
