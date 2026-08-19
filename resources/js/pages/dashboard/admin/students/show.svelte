@@ -4,9 +4,15 @@
     import { type BreadcrumbItem } from '@/types/navigation';
     import { inertia } from '@inertiajs/svelte';
     import { route } from '@/generated/helpers/route';
-    import { ArrowLeftIcon } from '@lucide/svelte';
+    import { ArrowLeftIcon, SquarePenIcon, Trash2Icon } from '@lucide/svelte';
+    import { Button } from '@/components/ui/button';
 
-    let { title, student } = $props();
+    type Props = {
+        title: string;
+        student: App.Data.Student.StudentData;
+    };
+
+    let { title, student }: Props = $props();
 
     const breadcrumbItems: BreadcrumbItem[] = [
         {
@@ -37,5 +43,17 @@
         </a>
 
         <StudentInfolist {student} />
+
+        <div class="flex mt-3 justify-end gap-3">
+            <Button class="" variant="outline">
+                <SquarePenIcon />
+                Edit siswa
+            </Button>
+
+            <Button class="" variant="destructive">
+                <Trash2Icon />
+                Hapus siswa
+            </Button>
+        </div>
     </div>
 </DashboardLayout>

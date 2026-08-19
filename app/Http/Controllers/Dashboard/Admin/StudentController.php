@@ -94,7 +94,7 @@ class StudentController extends Controller
 
         return Inertia::render('dashboard/admin/students/show', [
             'title' => env('APP_ENV').' | Data siswa',
-            'student' => new StudentResource($student),
+            'student' => StudentData::fromModel($student),
         ]);
     }
 

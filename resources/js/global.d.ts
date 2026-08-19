@@ -31,6 +31,10 @@ declare global {
     type PaginatedResponse<T> = Paginator & {
         data: T[];
     };
+
+    type ResponseData<T> = {
+        data: T;
+    };
 }
 
 declare module '@inertiajs/core' {
