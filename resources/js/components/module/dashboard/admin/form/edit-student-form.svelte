@@ -4,21 +4,26 @@
     import { page, router, useForm } from '@inertiajs/svelte';
     import { Button } from '@/components/ui/button';
     import { toast } from 'svelte-sonner';
+    import { getPublicFile } from '@/utils/asset';
+    import { route } from '@/generated/helpers/route';
+
+    let { student }: { student: App.Data.Student.StudentData } = $props();
 
     let toastId = $state<string | number | undefined>(undefined);
     let shouldCreateAnother = $state<boolean | null>(null);
 
     const form = useForm({
-        name: '',
-        email: '',
-        nik: '',
-        gender: '',
-        nis: '',
-        nisn: '',
-        birth_place: '',
-        birth_date: '',
-        admission_year: '',
-        status: '',
+        _method: 'PUT',
+        name: student.name,
+        email: student.user?.email,
+        nik: student.nik,
+        gender: student.gender,
+        nis: student.nis,
+        nisn: student.nisn,
+        birth_place: student.birth_place,
+        birth_date: student.birth_date,
+        admission_year: student.admission_year,
+        status: student.status,
         avatar: null as File | null,
     });
 
@@ -58,7 +63,9 @@
         toastId = toast.loading('Sedang menyimpan');
 
         form.post(
-            `/dashboard/admin/students?create_another=${shouldCreateAnother ? 1 : 0}`,
+            route('dashboard.admin.students.update', {
+                student: student.id,
+            }),
             {
                 preserveScroll: true,
                 forceFormData: true,
@@ -102,14 +109,14 @@
         if (window.history.length > 1) {
             window.history.back();
         } else {
-            router.visit('/dashboard/admin/students');
+            router.visit(route('dashboard.admin.students.index'));
         }
     }
 </script>
 
 <Card.Root>
     <Card.Header>
-        <Card.Title>Form tambah siswa</Card.Title>
+        <Card.Title>Form edit siswa</Card.Title>
     </Card.Header>
 
     <Card.Content>
@@ -220,6 +227,7 @@
             <FormControl.PreviewImage
                 label="Preview avatar"
                 bind:file={form.avatar}
+                initialUrl={getPublicFile(student.user?.avatar)}
                 aspectRatio="3:4"
                 removable
             />
@@ -228,18 +236,8 @@
                 <Button variant="ghost" type="button" onclick={handleCancel}
                     >Batalkan</Button
                 >
-                <Button
-                    variant="outline"
-                    type="submit"
-                    onclick={() => (shouldCreateAnother = false)}
-                    disabled={form.processing}>Simpan</Button
-                >
-                <Button
-                    type="submit"
-                    disabled={form.processing}
-                    onclick={() => (shouldCreateAnother = true)}
-                    >Simpan dan buat lagi</Button
-                >
+
+                <Button type="submit" disabled={form.processing}>Simpan</Button>
             </div>
         </form>
     </Card.Content>

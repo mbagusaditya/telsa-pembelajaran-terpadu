@@ -1,10 +1,15 @@
 <script lang="ts">
     import DashboardLayout from '@/layouts/dashboard.svelte';
     import { type BreadcrumbItem } from '@/types/navigation';
-    import CreateStudentForm from '@/components/module/dashboard/admin/form/create-student-form.svelte';
+    import EditStudentForm from '@/components/module/dashboard/admin/form/edit-student-form.svelte';
     import { route } from '@/generated/helpers/route';
 
-    let { title } = $props();
+    type Props = {
+        title: string;
+        student: App.Data.Student.StudentData;
+    };
+
+    let { title, student }: Props = $props();
 
     const breadcrumbItems: BreadcrumbItem[] = [
         {
@@ -16,11 +21,17 @@
             href: route('dashboard.admin.students.index'),
         },
         {
-            label: 'Tambah siswa',
+            label: student.name,
+            href: route('dashboard.admin.students.show', {
+                student: student.id,
+            }),
+        },
+        {
+            label: 'Edit siswa',
         },
     ];
 </script>
 
 <DashboardLayout {title} {breadcrumbItems}>
-    <CreateStudentForm />
+    <EditStudentForm {student} />
 </DashboardLayout>

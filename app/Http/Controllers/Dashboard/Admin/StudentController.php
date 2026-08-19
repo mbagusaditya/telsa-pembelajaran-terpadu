@@ -101,9 +101,14 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Student $student)
     {
-        //
+        $student = $student->load('user');
+
+        return Inertia::render('dashboard/admin/students/edit', [
+            'title' => env('APP_NAME').' | Edit siswa',
+            'student' => StudentData::fromModel($student),
+        ]);
     }
 
     /**

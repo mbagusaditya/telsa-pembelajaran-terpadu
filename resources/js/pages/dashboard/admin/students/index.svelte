@@ -3,6 +3,7 @@
     import { type BreadcrumbItem as BreadcrumbItemType } from '@/types/navigation';
     import StudentTable from '@/components/module/dashboard/admin/table/student-table.svelte';
     import { type Student } from '@/types/models';
+    import { route } from '@/generated/helpers/route';
 
     let {
         title,
@@ -15,10 +16,10 @@
     const breadcrumbItems: BreadcrumbItemType[] = [
         {
             label: 'Dashboard',
-            href: '/dashboard',
+            href: route('dashboard'),
         },
         {
-            label: 'Manajemen siswa',
+            label: 'Daftar siswa',
         },
     ];
 </script>

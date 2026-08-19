@@ -12,7 +12,7 @@
         autofocus?: boolean;
 
         label: string;
-        value: string | null;
+        value: string | number | null | undefined;
         error?: string | null;
     };
 

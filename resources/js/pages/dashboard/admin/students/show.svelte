@@ -17,14 +17,14 @@
     const breadcrumbItems: BreadcrumbItem[] = [
         {
             label: 'Dashboard',
-            href: '/dashboard',
+            href: route('dashboard'),
         },
         {
             label: 'Daftar siswa',
-            href: '/dashboard/admin/students',
+            href: route('dashboard.admin.students.index'),
         },
         {
-            label: 'Info siswa',
+            label: student.name,
         },
     ];
 </script>
@@ -45,10 +45,17 @@
         <StudentInfolist {student} />
 
         <div class="flex mt-3 justify-end gap-3">
-            <Button class="" variant="outline">
-                <SquarePenIcon />
-                Edit siswa
-            </Button>
+            <a
+                href={route('dashboard.admin.students.edit', {
+                    student: student.id,
+                })}
+                use:inertia
+            >
+                <Button class="" variant="outline">
+                    <SquarePenIcon />
+                    Edit siswa
+                </Button>
+            </a>
 
             <Button class="" variant="destructive">
                 <Trash2Icon />
