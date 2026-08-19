@@ -58,4 +58,45 @@ class StudentService
             return false;
         }
     }
+
+    public function update(array $data, Student $student, ?UploadedFile $avatar = null): Student | false
+    {
+        $avatarPath = $student->user->avatar ?? null;
+
+        try {
+            // 1. Upload Avatar ke Storage Public (storage:link)
+            if ($avatar) {
+                $avatarPath = $avatar->store('avatars/students', 'public');
+            }
+
+            return DB::transaction(function () use ($data, $student, $avatarPath) {
+                // 3. Buat Entri User
+                $student->user->update([
+                    'email' => $data['email'],
+                    'avatar' => $avatarPath,
+                ]);
+
+                // 4. Buat Entri Student (Relasi user_id -> users.id)
+                $student->update([
+                    'name' => $data['name'],
+                    'nik' => $data['nik'],
+                    'gender' => $data['gender'],
+                    'nis' => $data['nis'],
+                    'nisn' => $data['nisn'],
+                    'birth_place' => $data['birth_place'],
+                    'birth_date' => $data['birth_date'],
+                    'admission_year' => $data['admission_year'],
+                    'status' => $data['status'],
+                ]);
+
+                return $student;
+            });
+        } catch (\Throwable $e) {
+            if ($avatarPath && Storage::disk('public')->exists($avatarPath)) {
+                Storage::disk('public')->delete($avatarPath);
+            }
+
+            return false;
+        }
+    }
 }

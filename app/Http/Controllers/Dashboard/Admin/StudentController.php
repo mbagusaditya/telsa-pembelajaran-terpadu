@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard\Admin;
 use App\Data\Student\StudentData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\CreateStudentRequest;
+use App\Http\Requests\Student\UpdateStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Services\StudentService;
@@ -77,9 +78,7 @@ class StudentController extends Controller
         ]);
 
         if (!$request->boolean('create_another')) {
-            return redirect()->route('dashboard.admin.students.show', [
-                'student' => $student
-            ]);
+            return redirect()->route('dashboard.admin.students.show', compact('student'));
         }
 
         return back();
@@ -114,9 +113,31 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateStudentRequest $request, Student $student, StudentService $studentService)
     {
-        //
+        $student = $studentService->update(
+            $request->validated(),
+            $student,
+            $request->file('avatar')
+        );
+
+        if (! $student) {
+            Inertia::flash('toast', [
+                'message' => 'Gagal mengubah data siswa. Silakan coba lagi.',
+                'type'    => 'error',
+                'code'    => 500,
+            ]);
+
+            return back();
+        }
+
+        Inertia::flash('toast', [
+            'message' => 'Siswa berhasil diubah!',
+            'type'    => 'success',
+            'code'    => 201,
+        ]);
+
+        return redirect()->route('dashboard.admin.students.show', compact('student'));
     }
 
     /**
