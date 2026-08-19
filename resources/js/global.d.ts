@@ -6,23 +6,31 @@ type HttpStatusCode =
 declare global {
     type ToastType = 'success' | 'error' | 'warning' | 'info';
 
-    interface PaginatedResponse<T> {
-        data: T[];
-        links?: {
-            first: string | null;
-            last: string | null;
-            prev: string | null;
-            next: string | null;
-        };
-        meta?: {
-            current_page: number;
-            from: number | null;
-            last_page: number;
-            per_page: number;
-            to: number | null;
-            total: number;
-        };
+    interface PaginationLink {
+        url: string | null;
+        label: string;
+        page?: number | null;
+        active: boolean;
     }
+
+    interface Paginator {
+        current_page: number;
+        first_page_url: string;
+        from: number | null;
+        last_page: number;
+        last_page_url: string;
+        links: PaginationLink[];
+        next_page_url: string | null;
+        path: string;
+        per_page: number;
+        prev_page_url: string | null;
+        to: number | null;
+        total: number;
+    }
+
+    type PaginatedResponse<T> = Paginator & {
+        data: T[];
+    };
 }
 
 declare module '@inertiajs/core' {

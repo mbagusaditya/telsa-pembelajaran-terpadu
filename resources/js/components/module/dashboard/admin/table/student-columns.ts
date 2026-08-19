@@ -3,12 +3,10 @@ import {
     type DataTableColumnDef,
 } from '@/components/core/data-table';
 
-import { type Student } from '@/types/models';
+const columnHelper = createAppColumnHelper<App.Data.Student.StudentData>();
 
-const columnHelper = createAppColumnHelper<Student>();
-
-export const columns: DataTableColumnDef<Student, any>[] = columnHelper.columns(
-    [
+export const columns: DataTableColumnDef<App.Data.Student.StudentData, any>[] =
+    columnHelper.columns([
         columnHelper.accessor('nis', {
             header: 'NIS',
         }),
@@ -21,5 +19,4 @@ export const columns: DataTableColumnDef<Student, any>[] = columnHelper.columns(
         columnHelper.accessor('status', {
             header: 'Status',
         }),
-    ],
-);
+    ]);

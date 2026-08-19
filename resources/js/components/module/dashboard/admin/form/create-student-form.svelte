@@ -15,8 +15,8 @@
         gender: '',
         nis: '',
         nisn: '',
-        born_place: '',
-        born_date: '',
+        birth_place: '',
+        birth_date: '',
         admission_year: '',
         status: '',
         avatar: null as File | null,
@@ -173,8 +173,8 @@
             <FormControl.Input
                 id="student-born-place"
                 label="Tempat lahir siswa"
-                bind:value={form.born_place}
-                error={form.errors.born_place}
+                bind:value={form.birth_place}
+                error={form.errors.birth_place}
                 placeholder="Masukkan tempat lahir siswa"
                 required
             />
@@ -182,8 +182,8 @@
             <FormControl.DateInput
                 id="student-born-date"
                 label="Tanggal lahir siswa"
-                bind:value={form.born_date}
-                error={form.errors.born_date}
+                bind:value={form.birth_date}
+                error={form.errors.birth_date}
                 placeholder="Masukkan tanggal lahir siswa"
                 required
             />

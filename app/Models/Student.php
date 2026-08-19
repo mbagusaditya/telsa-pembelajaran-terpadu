@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'nisn',
     'name',
     'gender',
-    'born_date',
-    'born_place',
+    'birth_date',
+    'birth_place',
     'admission_year',
     'status',
     'user_id',
@@ -37,7 +37,7 @@ class Student extends Model
     {
         return [
             'admission_year' => 'integer',
-            'born_date' => 'date',
+            'birth_date' => 'date',
             'gender' => Gender::class,
             'status' => StudentStatus::class,
         ];

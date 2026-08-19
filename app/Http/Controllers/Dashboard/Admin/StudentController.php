@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard\Admin;
 
+use App\Data\Student\StudentData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\CreateStudentRequest;
 use App\Http\Resources\StudentResource;
@@ -34,7 +35,7 @@ class StudentController extends Controller
 
         return Inertia::render('dashboard/admin/students/index', [
             'title' => env('APP_NAME').' | Manajemen siswa',
-            'students' => StudentResource::collection($students),
+            'students' => StudentData::collect($students),
             'filter' => compact('perPage', 'search'),
         ]);
     }
@@ -89,7 +90,12 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        $student = $student->load('user');
+
+        return Inertia::render('dashboard/admin/students/show', [
+            'title' => env('APP_ENV').' | Data siswa',
+            'student' => new StudentResource($student),
+        ]);
     }
 
     /**

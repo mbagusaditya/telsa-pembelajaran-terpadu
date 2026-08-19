@@ -23,14 +23,16 @@ class StudentResource extends JsonResource
             'nik' => $this->nik,
 
             // 2. Data Kelahiran (Raw & Display Ready)
-            'born_place' => $this->born_place,
-            'born_date' => $this->born_date?->format('Y-m-d'),
-            'birth_info' => "{$this->born_place}, ".($this->born_date ? $this->born_date->translatedFormat('d F Y') : '-'),
-            'age' => $this->born_date ? $this->born_date->age : null,
+            'birth_place' => $this->birth_place,
+            'birth_date' => $this->birth_date?->format('Y-m-d'),
+            'birth_info' => "{$this->birth_place}, ".($this->birth_date ? $this->birth_date->translatedFormat('d F Y') : '-'),
+            'age' => $this->birth_date ? $this->birth_date->age : null,
 
             // 3. Status Akademik & Status Siswa
             'admission_year' => $this->admission_year,
-            'status' => $this->status, // e.g. 'active', 'graduated', 'moved'
+            'status' => $this->status,
+
+            'gender' => $this->gender,
 
             // 4. Relasi (Gunakan whenLoaded agar hemat query / anti N+1)
             'user' => new UserResource($this->whenLoaded('user')),

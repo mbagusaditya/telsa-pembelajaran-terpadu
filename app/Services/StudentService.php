@@ -44,8 +44,8 @@ class StudentService
                     'gender' => $data['gender'],
                     'nis' => $data['nis'],
                     'nisn' => $data['nisn'],
-                    'born_place' => $data['born_place'],
-                    'born_date' => $data['born_date'],
+                    'birth_place' => $data['birth_place'],
+                    'birth_date' => $data['birth_date'],
                     'admission_year' => $data['admission_year'],
                     'status' => $data['status'],
                 ]);

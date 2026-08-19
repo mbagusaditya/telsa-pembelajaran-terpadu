@@ -15,12 +15,7 @@ export type DataTableQuery = {
     perPage: number;
 };
 
-export type DataTablePagination = {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-};
+export type DataTablePagination = Paginator;
 
 export type DataTableProps<TData extends RowData> = {
     data: TData[];

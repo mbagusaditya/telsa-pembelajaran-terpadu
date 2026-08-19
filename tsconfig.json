@@ -24,7 +24,8 @@
     "include": [
         "resources/js/**/*.ts",
         "resources/js/**/*.svelte",
-        "resources/js/types/global.d.ts",
+        "resources/js/global.d.ts",
+        "resources/js/generated/generated.d.ts",
         "resources/js/types/**/*.d.ts"
     ],
     "exclude": ["node_modules", "public", "vendor"]

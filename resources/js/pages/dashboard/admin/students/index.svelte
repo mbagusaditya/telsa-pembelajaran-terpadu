@@ -9,7 +9,7 @@
         students,
     }: {
         title: string;
-        students: PaginatedResponse<Student>;
+        students: PaginatedResponse<App.Data.Student.StudentData>;
     } = $props();
 
     const breadcrumbItems: BreadcrumbItemType[] = [

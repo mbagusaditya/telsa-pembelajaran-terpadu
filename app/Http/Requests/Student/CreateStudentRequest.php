@@ -35,8 +35,8 @@ class CreateStudentRequest extends FormRequest
             'gender' => ['required', Rule::in(Gender::cases())],
             'nis' => ['required', 'unique:students,nis'],
             'nisn' => ['required', 'unique:students,nisn'],
-            'born_place' => ['required'],
-            'born_date' => ['required', 'date'],
+            'birth_place' => ['required'],
+            'birth_date' => ['required', 'date'],
             'admission_year' => ['required', 'min:4', 'max:4'],
             'status' => ['required'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048']

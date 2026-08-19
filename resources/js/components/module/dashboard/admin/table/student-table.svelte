@@ -8,13 +8,12 @@
     import { Button } from '@/components/ui/button';
 
     import { columns } from './student-columns';
-    import { type Student } from '@/types/models';
     import { EyeIcon, SquarePenIcon, Trash2Icon } from '@lucide/svelte';
 
     let {
         students,
     }: {
-        students: PaginatedResponse<Student>;
+        students: PaginatedResponse<App.Data.Student.StudentData>;
     } = $props();
 
     let search = $state('');
@@ -38,7 +37,7 @@
 <DataTable
     data={students.data}
     {columns}
-    pagination={students.meta}
+    pagination={students}
     bind:search
     searchPlaceholder="Cari dengan NIS / nama..."
     {onQueryChange}
@@ -51,13 +50,12 @@
 
     {#snippet rowActions({ row })}
         <div class="flex justify-end gap-2">
-            <Button
-                variant="ghost"
-                size="icon"
-                href={`/dashboard/admin/students/${row.id}`}
-            >
-                <EyeIcon class="w-4 h-4" />
-            </Button>
+            <a href={`/dashboard/admin/students/${row.id}`} use:inertia>
+                <Button variant="ghost" size="icon">
+                    <EyeIcon class="w-4 h-4" />
+                </Button>
+            </a>
+
             <Button
                 variant="ghost"
                 size="icon"
@@ -65,6 +63,7 @@
             >
                 <SquarePenIcon class="w-4 h-4" />
             </Button>
+
             <Button variant="ghost" size="icon" class="text-destructive">
                 <Trash2Icon class="w-4 h-4" />
             </Button>
