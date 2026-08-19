@@ -6,18 +6,19 @@
     import { toast } from 'svelte-sonner';
 
     let toastId = $state<string | number | undefined>(undefined);
+    let shouldCreateAnother = $state<boolean | null>(null);
 
     const form = useForm({
-        name: 'lorem ipsum',
-        email: 'lorem@ipsum.com',
-        nik: '123333123',
-        gender: 'male',
-        nis: '011041',
-        nisn: '12415',
-        born_place: 'Jepara',
-        born_date: '2004-01-01',
-        admission_year: '4003',
-        status: 'active',
+        name: '',
+        email: '',
+        nik: '',
+        gender: '',
+        nis: '',
+        nisn: '',
+        born_place: '',
+        born_date: '',
+        admission_year: '',
+        status: '',
         avatar: null as File | null,
     });
 
@@ -56,20 +57,32 @@
 
         toastId = toast.loading('Sedang menyimpan');
 
-        form.post('/dashboard/admin/students', {
-            preserveScroll: true,
-            onFinish: () => {
-                if (!page.flash.toast) {
-                    toast.dismiss(toastId);
+        form.post(
+            `/dashboard/admin/students?create_another=${shouldCreateAnother ? 1 : 0}`,
+            {
+                preserveScroll: true,
+                forceFormData: true,
+                onFinish: () => {
+                    if (!page.flash.toast) {
+                        toast.dismiss(toastId);
 
-                    return;
-                }
+                        return;
+                    }
 
-                const func = toast[page.flash.toast.type as ToastType];
+                    const func = toast[page.flash.toast.type as ToastType];
 
-                func(page.flash.toast.message, { id: toastId });
+                    func(page.flash.toast.message, { id: toastId });
+
+                    form.reset();
+                },
+                onSuccess: () => {
+                    if (shouldCreateAnother) {
+                        form.reset();
+                        form.clearErrors();
+                    }
+                },
             },
-        });
+        );
     }
 
     function handleCancel() {
@@ -181,6 +194,7 @@
                 bind:value={form.admission_year}
                 error={form.errors.admission_year}
                 placeholder="Masukkan tahun masuk siswa"
+                type="number"
                 required
             />
 
@@ -196,7 +210,7 @@
 
             <FormControl.Dropzone
                 id="student-avatar"
-                label="Avatar siswa"
+                label="Pas foto siswa"
                 bind:file={form.avatar}
                 error={form.errors.avatar}
                 accept=".png,.jpg,.jpeg,.webp,.pdf"
@@ -206,6 +220,7 @@
             <FormControl.PreviewImage
                 label="Preview avatar"
                 bind:file={form.avatar}
+                aspectRatio="3:4"
                 removable
             />
 
@@ -216,9 +231,13 @@
                 <Button
                     variant="outline"
                     type="submit"
+                    onclick={() => (shouldCreateAnother = false)}
                     disabled={form.processing}>Simpan</Button
                 >
-                <Button type="submit" disabled={form.processing}
+                <Button
+                    type="submit"
+                    disabled={form.processing}
+                    onclick={() => (shouldCreateAnother = true)}
                     >Simpan dan buat lagi</Button
                 >
             </div>

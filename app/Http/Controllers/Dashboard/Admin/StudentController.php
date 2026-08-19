@@ -75,13 +75,19 @@ class StudentController extends Controller
             'code'    => 201,
         ]);
 
+        if (!$request->boolean('create_another')) {
+            return redirect()->route('dashboard.admin.students.show', [
+                'student' => $student
+            ]);
+        }
+
         return back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Student $student)
     {
         //
     }
