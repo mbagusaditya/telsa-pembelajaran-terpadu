@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->uuid('created_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('created_by')
                 ->references('id')

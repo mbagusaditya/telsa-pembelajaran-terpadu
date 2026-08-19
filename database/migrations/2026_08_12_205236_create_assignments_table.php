@@ -21,6 +21,7 @@ return new class extends Migration
             $table->uuid('created_by')->nullable();
             $table->uuid('course_offering_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('created_by')
                 ->references('id')

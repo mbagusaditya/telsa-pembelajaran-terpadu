@@ -20,6 +20,7 @@ return new class extends Migration
             $table->uuid('homeroom_teacher_id')->nullable();
             $table->uuid('created_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('major_id')
                 ->references('id')

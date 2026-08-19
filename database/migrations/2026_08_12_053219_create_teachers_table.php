@@ -21,6 +21,7 @@ return new class extends Migration
             $table->uuid('user_id')->nullable();
             $table->uuid('created_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')
