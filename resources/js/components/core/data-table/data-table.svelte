@@ -5,6 +5,7 @@
         type RowData,
         type ColumnDef,
     } from '@tanstack/svelte-table';
+    import type { Snippet } from 'svelte';
 
     import * as Table from '@/components/ui/table';
 
@@ -12,8 +13,13 @@
     import DataTablePagination from './data-table-pagination.svelte';
 
     import { dataTableFeatures, type DataTableFeatures } from './features';
-
     import type { DataTableProps } from './types';
+
+    // Extend props bawaan agar mendukung snippet rowActions
+    type Props = DataTableProps<TData> & {
+        rowActions?: Snippet<[{ row: TData }]>;
+        actionsHeader?: string;
+    };
 
     let {
         data,
@@ -31,23 +37,43 @@
         toolbarActions,
 
         withRowNumber = true,
-    }: DataTableProps<TData> = $props();
+        rowActions,
+        actionsHeader = 'Aksi',
+    }: Props = $props();
 
     // columns configuration
     const allColumns = $derived.by(() => {
-        const rowNumberCol: ColumnDef<DataTableFeatures, TData> = {
-            id: '_row_number',
-            header: () => '#',
-            cell: ({ row }) => {
-                const currentPage = pagination?.current_page ?? 1;
-                const perPage = pagination?.per_page ?? 20;
-                return (currentPage - 1) * perPage + row.index + 1;
-            },
-            enableSorting: false,
-            enableHiding: false,
-        };
+        const cols: ColumnDef<DataTableFeatures, TData>[] = [...columns];
 
-        return withRowNumber ? [rowNumberCol, ...columns] : columns;
+        // 1. Tambah Kolom Nomor Baris (Kiri)
+        if (withRowNumber) {
+            const rowNumberCol: ColumnDef<DataTableFeatures, TData> = {
+                id: '_row_number',
+                header: () => '#',
+                cell: ({ row }) => {
+                    const currentPage = pagination?.current_page ?? 1;
+                    const perPage = pagination?.per_page ?? 20;
+                    return (currentPage - 1) * perPage + row.index + 1;
+                },
+                enableSorting: false,
+                enableHiding: false,
+            };
+            cols.unshift(rowNumberCol);
+        }
+
+        // 2. Tambah Kolom Actions (Kanan) jika snippet rowActions diberikan
+        if (rowActions) {
+            const actionsCol: ColumnDef<DataTableFeatures, TData> = {
+                id: '_actions',
+                header: () => actionsHeader,
+                cell: ({ row }) => row.original, // Kirim row data asli ke cell renderer
+                enableSorting: false,
+                enableHiding: false,
+            };
+            cols.push(actionsCol);
+        }
+
+        return cols;
     });
 
     const table = $derived.by(() =>
@@ -100,7 +126,6 @@
     }
 
     $effect(() => {
-        // onDestroy
         return () => {
             if (debounceTimer) {
                 clearTimeout(debounceTimer);
@@ -123,7 +148,11 @@
                 {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
                     <Table.Row>
                         {#each headerGroup.headers as header (header.id)}
-                            <Table.Head>
+                            <Table.Head
+                                class={header.id === '_actions'
+                                    ? 'text-right'
+                                    : ''}
+                            >
                                 {#if !header.isPlaceholder}
                                     <FlexRender {header} />
                                 {/if}
@@ -138,8 +167,18 @@
                     {#each table.getRowModel().rows as row (row.id)}
                         <Table.Row>
                             {#each row.getVisibleCells() as cell (cell.id)}
-                                <Table.Cell>
-                                    <FlexRender {cell} />
+                                <Table.Cell
+                                    class={cell.column.id === '_actions'
+                                        ? 'text-right'
+                                        : ''}
+                                >
+                                    {#if cell.column.id === '_actions' && rowActions}
+                                        {@render rowActions({
+                                            row: row.original,
+                                        })}
+                                    {:else}
+                                        <FlexRender {cell} />
+                                    {/if}
                                 </Table.Cell>
                             {/each}
                         </Table.Row>
