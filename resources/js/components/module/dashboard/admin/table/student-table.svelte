@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { inertia, router } from '@inertiajs/svelte';
+    import { inertia, page, router } from '@inertiajs/svelte';
 
     import {
         DataTable,
@@ -9,6 +9,9 @@
 
     import { columns } from './student-columns';
     import { EyeIcon, SquarePenIcon, Trash2Icon } from '@lucide/svelte';
+    import { route } from '@/generated/helpers/route';
+    import DeleteConfirmation from '@/components/core/alert-dialog/delete-confirmation.svelte';
+    import { toast } from 'svelte-sonner';
 
     let {
         students,
@@ -17,9 +20,11 @@
     } = $props();
 
     let search = $state('');
+    let selectedStudent = $state<App.Data.Student.StudentData | null>(null);
+    let isDeleting = $state(false);
 
     function onQueryChange(query: DataTableQuery) {
-        router.visit('/dashboard/admin/students', {
+        router.visit(route('dashboard.admin.students.index'), {
             data: {
                 search: query.search || undefined,
 
@@ -31,6 +36,38 @@
             preserveState: true,
             preserveScroll: true,
         });
+    }
+
+    function handleDelete() {
+        if (!selectedStudent) return;
+
+        let toastId = toast.loading('Sedang menghapus');
+
+        router.delete(
+            route('dashboard.admin.students.destroy', {
+                student: selectedStudent.id,
+            }),
+            {
+                preserveScroll: true,
+                onStart: () => {
+                    isDeleting = true;
+                },
+                onFinish: () => {
+                    isDeleting = false;
+                    selectedStudent = null; // Tutup dialog
+
+                    if (!page.flash.toast) {
+                        toast.dismiss(toastId);
+
+                        return;
+                    }
+
+                    const func = toast[page.flash.toast.type as ToastType];
+
+                    func(page.flash.toast.message, { id: toastId });
+                },
+            },
+        );
     }
 </script>
 
@@ -64,9 +101,28 @@
                 <SquarePenIcon class="w-4 h-4" />
             </Button>
 
-            <Button variant="ghost" size="icon" class="text-destructive">
+            <Button
+                variant="ghost"
+                size="icon"
+                class="text-destructive"
+                onclick={() => (selectedStudent = row)}
+            >
                 <Trash2Icon class="w-4 h-4" />
             </Button>
         </div>
     {/snippet}
 </DataTable>
+
+<DeleteConfirmation
+    isOpened={selectedStudent !== null}
+    onOpenChange={(open) => {
+        if (!open) selectedStudent = null;
+    }}
+    {handleDelete}
+    {isDeleting}
+>
+    {#snippet description()}
+        Data siswa <strong>{selectedStudent?.name}</strong> akan dihapus permanen.
+        Tindakan ini tidak dapat dibatalkan.
+    {/snippet}
+</DeleteConfirmation>

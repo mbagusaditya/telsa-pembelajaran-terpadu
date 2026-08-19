@@ -143,8 +143,14 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Student $student)
     {
-        //
+        Inertia::flash('toast', [
+            'message' => 'Siswa berhasil dihapus!',
+            'type'    => 'success',
+            'code'    => 201,
+        ]);
+
+        return back();
     }
 }
