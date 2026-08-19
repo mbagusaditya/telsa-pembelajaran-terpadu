@@ -42,6 +42,10 @@
             value: student.admission_year,
         },
         {
+            label: 'Status',
+            value: student.status,
+        },
+        {
             label: 'Email',
             value: student.user?.email,
         },
