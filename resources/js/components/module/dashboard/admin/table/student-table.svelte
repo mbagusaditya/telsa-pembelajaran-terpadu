@@ -35,6 +35,8 @@
 
             preserveState: true,
             preserveScroll: true,
+
+            only: ['students'],
         });
     }
 
