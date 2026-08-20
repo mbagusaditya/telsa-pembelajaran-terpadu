@@ -22,8 +22,8 @@ class StudentData extends Data
         public ?string $nik,
 
         // 2. Data Kelahiran (Raw & Display Ready)
-        public ?string $birth_place,
-        public ?string $birth_date,
+        public string $birth_place,
+        public string $birth_date,
         public string $birth_info,
         public ?int $age,
 

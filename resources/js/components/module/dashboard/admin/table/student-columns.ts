@@ -2,6 +2,8 @@ import {
     createAppColumnHelper,
     type DataTableColumnDef,
 } from '@/components/core/data-table';
+import { renderComponent } from '@tanstack/svelte-table';
+import StudentTableStatusCell from './student-table-status-cell.svelte';
 
 const columnHelper = createAppColumnHelper<App.Data.Student.StudentData>();
 
@@ -18,5 +20,10 @@ export const columns: DataTableColumnDef<App.Data.Student.StudentData, any>[] =
         }),
         columnHelper.accessor('status', {
             header: 'Status',
+            cell: ({ getValue }) => {
+                return renderComponent(StudentTableStatusCell, {
+                    status: getValue() as any,
+                });
+            },
         }),
     ]);

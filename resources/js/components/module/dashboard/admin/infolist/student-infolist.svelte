@@ -1,6 +1,14 @@
 <script lang="ts">
     import * as FormControl from '@/components/core/form-control';
+    import {
+        GENDER_MAP,
+        STUDENT_STATUS_BADGE_MAP,
+        STUDENT_STATUS_MAP,
+    } from '@/constants/enum';
     import { getUserName } from '@/utils/user';
+    import { cn } from 'tailwind-variants';
+    import { formatDate } from '@/utils/date';
+    import { Badge } from '@/components/ui/badge';
 
     let {
         student,
@@ -32,11 +40,12 @@
         },
         {
             label: 'Tanggal lahir',
-            value: student.birth_date,
+            value: formatDate(student.birth_date, 'long'),
         },
         {
             label: 'Jenis kelamin',
-            value: student.gender,
+            value: GENDER_MAP[student.gender],
+            capitalize: true,
         },
         {
             label: 'Tahun masuk',
@@ -44,7 +53,8 @@
         },
         {
             label: 'Status',
-            value: student.status,
+            value: STUDENT_STATUS_MAP[student.status],
+            variant: STUDENT_STATUS_BADGE_MAP[student.status],
         },
         {
             label: 'Email',
@@ -74,8 +84,14 @@
                 <tr class="flex md:table-row flex-col py-3 md:py-0">
                     <td class="w-32 font-semibold">{data.label}</td>
                     <td class="w-2 hidden">:</td>
-                    <td>
-                        {data.value}
+                    <td class={cn(data.capitalize ? 'capitalize' : '')}>
+                        {#if data.variant}
+                            <Badge variant={data.variant}>
+                                {data.value}
+                            </Badge>
+                        {:else}
+                            {data.value}
+                        {/if}
                     </td>
                 </tr>
             {/each}
