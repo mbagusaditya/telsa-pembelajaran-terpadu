@@ -11,7 +11,7 @@ use Spatie\LaravelData\Lazy;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class StudentData extends Data
+class TeacherData extends Data
 {
     public function __construct(
         // 1. Identitas Utama & Identifier
@@ -33,8 +33,8 @@ class StudentData extends Data
         public Gender $gender,
 
         // 4. Relasi (Lazy::whenLoaded menggantikan whenLoaded)
-        public Lazy|UserData|null $creator,
         public Lazy|UserData|null $user,
+        public Lazy|UserData|null $creator,
 
         // 5. Timestamps & Audit Info
         public ?string $created_at,
@@ -64,8 +64,8 @@ class StudentData extends Data
             gender: $student->gender,
 
             // Relasi lazy-loaded (hanya di-load jika sudah di-eager load)
-            user: Lazy::whenLoaded('user', $student, fn() => $student->user ? UserData::fromModel($student->user) : null),
-            creator: Lazy::whenLoaded('creator', $student, fn() => $student->creator ? UserData::fromModel($student->creator) : null),
+            user: Lazy::whenLoaded('user', $student, fn () => $student->user ? UserData::from($student->user) : null),
+            creator: Lazy::whenLoaded('creator', $student, fn () => $student->creator ? UserData::from($student->creator) : null),
 
             created_at: $student->created_at?->toIso8601String(),
             updated_at: $student->updated_at?->toIso8601String(),

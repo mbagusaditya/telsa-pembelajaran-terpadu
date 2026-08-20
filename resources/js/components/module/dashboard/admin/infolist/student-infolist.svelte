@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as FormControl from '@/components/core/form-control';
+    import { getUserName } from '@/utils/user';
 
     let {
         student,
@@ -51,9 +52,11 @@
         },
         {
             label: 'Dibuat oleh',
-            value: student.name,
+            value: getUserName(student.creator),
         },
     ]);
+
+    $inspect(student);
 </script>
 
 <!-- {JSON.stringify(student)} -->

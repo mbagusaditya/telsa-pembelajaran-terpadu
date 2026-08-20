@@ -89,7 +89,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        $student = $student->load('user');
+        $student = $student->load('user', 'creator.admin');
 
         return Inertia::render('dashboard/admin/students/show', [
             'title' => env('APP_ENV').' | Data siswa',

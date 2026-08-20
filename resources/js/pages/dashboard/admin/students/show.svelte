@@ -4,7 +4,12 @@
     import { type BreadcrumbItem } from '@/types/navigation';
     import { inertia, page, router } from '@inertiajs/svelte';
     import { route } from '@/generated/helpers/route';
-    import { ArrowLeftIcon, SquarePenIcon, Trash2Icon } from '@lucide/svelte';
+    import {
+        ArrowLeftIcon,
+        LockIcon,
+        SquarePenIcon,
+        Trash2Icon,
+    } from '@lucide/svelte';
     import { Button } from '@/components/ui/button';
     import { toast } from 'svelte-sonner';
     import DeleteConfirmation from '@/components/core/alert-dialog/delete-confirmation.svelte';
@@ -79,18 +84,25 @@
 
         <StudentInfolist {student} />
 
-        <div class="flex mt-3 justify-end gap-3">
+        <div
+            class="grid grid-cols-1 md:flex mt-3 flex-wrap md:justify-end gap-3"
+        >
             <a
                 href={route('dashboard.admin.students.edit', {
                     student: student.id,
                 })}
                 use:inertia
             >
-                <Button class="" variant="outline">
+                <Button class="w-full" variant="outline">
                     <SquarePenIcon />
                     Edit siswa
                 </Button>
             </a>
+
+            <Button class="">
+                <LockIcon />
+                Ubah password
+            </Button>
 
             <Button variant="destructive" onclick={() => (isOpened = true)}>
                 <Trash2Icon />

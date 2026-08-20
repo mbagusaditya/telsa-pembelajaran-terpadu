@@ -1,9 +1,12 @@
 import type { AuthUser } from '@/types/user';
 
-export function getUserName(authUser: AuthUser | null): string | null {
+type User = AuthUser | App.Data.User.UserData;
+
+export function getUserName(authUser: User | null | undefined): string | null {
     if (!authUser) return null;
 
-    if (authUser.role === 'admin') return authUser.profile.username;
+    if (authUser.role === 'admin')
+        return (authUser.profile as App.Data.Admin.AdminData)?.username;
 
-    return authUser.profile.name;
+    return (authUser.profile as App.Data.Student.StudentData)?.name;
 }
