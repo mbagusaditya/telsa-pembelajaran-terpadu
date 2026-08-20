@@ -10,11 +10,21 @@
     import * as Sidebar from '@/components/ui/sidebar';
     import { useSidebar } from '@/components/ui/sidebar';
     import { getUserName } from '@/utils/user';
-    import { page } from '@inertiajs/svelte';
+    import { page, router } from '@inertiajs/svelte';
+    import { route } from '@/generated/helpers/route';
+    import LogoutSidebar from '@/components/core/alert-dialog/logout-confirmation.svelte';
+    import LogoutConfirmation from '@/components/core/alert-dialog/logout-confirmation.svelte';
 
     const sidebar = useSidebar();
 
+    let isOpened = $state(false);
+    let isSubmitting = $state(false);
+
     let user = $derived(page.props.auth.user);
+
+    function logout() {
+        router.post(route('auth.logout'));
+    }
 </script>
 
 <Sidebar.Menu>
@@ -104,7 +114,7 @@
                     </DropdownMenu.Item>
                 </DropdownMenu.Group>
                 <DropdownMenu.Separator />
-                <DropdownMenu.Item>
+                <DropdownMenu.Item onSelect={() => (isOpened = true)}>
                     <LogOutIcon />
                     Log out
                 </DropdownMenu.Item>
@@ -112,3 +122,12 @@
         </DropdownMenu.Root>
     </Sidebar.MenuItem>
 </Sidebar.Menu>
+
+<LogoutConfirmation
+    {isOpened}
+    handler={logout}
+    {isSubmitting}
+    onOpenChange={(open) => {
+        if (!open) isOpened = false;
+    }}
+/>

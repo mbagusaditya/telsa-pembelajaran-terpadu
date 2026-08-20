@@ -39,8 +39,7 @@ Route::middleware(['guest'])->group(function () {
 // LOGOUT ROUTE
 // =============
 Route::middleware(['auth'])->group(function () {
-    Route::get('/auth/logout', LogoutController::class)->name('logout'); // will be removed later
-    // Route::post('/auth/logout', LogoutController::class)->name('logout'); // WIP
+    Route::post('/auth/logout', LogoutController::class)->name('auth.logout');
 });
 
 // =============
