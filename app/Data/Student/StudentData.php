@@ -56,7 +56,7 @@ class StudentData extends Data
 
             birth_place: $student->birth_place,
             birth_date: $student->birth_date?->format('Y-m-d'),
-            birth_info: "{$student->birth_place}, " . ($student->birth_date ? $student->birth_date->translatedFormat('d F Y') : '-'),
+            birth_info: "{$student->birth_place}, ".($student->birth_date ? $student->birth_date->translatedFormat('d F Y') : '-'),
             age: $student->birth_date?->age,
 
             admission_year: $student->admission_year,
@@ -64,8 +64,8 @@ class StudentData extends Data
             gender: $student->gender,
 
             // Relasi lazy-loaded (hanya di-load jika sudah di-eager load)
-            user: Lazy::whenLoaded('user', $student, fn() => $student->user ? UserData::fromModel($student->user) : null),
-            creator: Lazy::whenLoaded('creator', $student, fn() => $student->creator ? UserData::fromModel($student->creator) : null),
+            user: Lazy::whenLoaded('user', $student, fn () => $student->user ? UserData::fromModel($student->user) : null),
+            creator: Lazy::whenLoaded('creator', $student, fn () => $student->creator ? UserData::fromModel($student->creator) : null),
 
             created_at: $student->created_at?->toIso8601String(),
             updated_at: $student->updated_at?->toIso8601String(),

@@ -24,7 +24,7 @@ trait HasInertiaOptions
     public static function options(): array
     {
         return array_map(
-            fn(self $case) => $case->toArray(),
+            fn (self $case) => $case->toArray(),
             static::cases()
         );
     }

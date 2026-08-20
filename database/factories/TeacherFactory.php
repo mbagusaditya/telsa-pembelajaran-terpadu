@@ -25,8 +25,8 @@ class TeacherFactory extends Factory
             'name' => fake()->name(),
             'wa_number' => fake()->numerify('08##########'),
             'gender' => fake()->randomElement(Gender::cases()),
-            'user_id' => User::factory(),
-            'created_by' => User::factory(),
+            'user_id' => User::factory()->teacher(),
+            'created_by' => User::factory()->admin(),
             'joined_at' => fake()->dateTimeBetween(startDate: '-20 years')->format('Y-m-d'),
         ];
     }

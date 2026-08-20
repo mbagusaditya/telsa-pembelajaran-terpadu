@@ -3,10 +3,7 @@
 namespace App\Data\Admin;
 
 use App\Data\User\UserData;
-use App\Enums\Gender;
-use App\Enums\StudentStatus;
 use App\Models\Admin;
-use App\Models\Student;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;

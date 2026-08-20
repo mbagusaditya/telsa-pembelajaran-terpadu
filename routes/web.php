@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\StudentLoginController;
 use App\Http\Controllers\Auth\TeacherLoginController;
+use App\Http\Controllers\Dashboard\Admin\ChangePasswordController;
 use App\Http\Controllers\Dashboard\Admin\StudentController as AdminStudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,12 @@ Route::middleware(['auth'])
                     ->prefix('/admin')
                     ->group(function () {
                         Route::resource('/students', AdminStudentController::class);
+
+                        // change password
+                        Route::post('/students/{student}/change-password', [ChangePasswordController::class, 'student'])
+                            ->name('students.change-password');
+                        // Route::get('/teachers/change-password', [ChangePasswordController::class, 'teacher'])
+                        //     ->name('teachers.change-password');
                     });
             });
     });

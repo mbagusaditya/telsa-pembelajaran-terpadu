@@ -56,7 +56,7 @@ class TeacherData extends Data
 
             birth_place: $student->birth_place,
             birth_date: $student->birth_date?->format('Y-m-d'),
-            birth_info: "{$student->birth_place}, " . ($student->birth_date ? $student->birth_date->translatedFormat('d F Y') : '-'),
+            birth_info: "{$student->birth_place}, ".($student->birth_date ? $student->birth_date->translatedFormat('d F Y') : '-'),
             age: $student->birth_date?->age,
 
             admission_year: $student->admission_year,

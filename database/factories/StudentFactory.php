@@ -31,8 +31,8 @@ class StudentFactory extends Factory
             'gender' => fake()->randomElement(Gender::cases()),
             'admission_year' => (int) fake()->dateTimeBetween(startDate: '-5 years')->format('Y'),
             'status' => fake()->randomElement(StudentStatus::cases()),
-            'user_id' => User::factory(),
-            'created_by' => User::factory(),
+            'user_id' => User::factory()->student(),
+            'created_by' => User::factory()->admin(),
         ];
     }
 

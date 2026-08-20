@@ -39,7 +39,7 @@
 
     const changePasswordForm = useForm({
         password: '',
-        confirmation_password: '',
+        password_confirmation: '',
         student_name: '',
     });
 
@@ -52,10 +52,37 @@
 
     function submitChangePassword(e: Event) {
         e.preventDefault();
+
+        let toastId = toast.loading('Sedang mengirim...');
+
+        changePasswordForm.post(
+            route('dashboard.admin.students.change-password', {
+                student: student.id,
+            }),
+            {
+                onFinish: () => {
+                    if (!page.flash.toast) {
+                        toast.dismiss(toastId);
+
+                        return;
+                    }
+
+                    changePasswordForm.password = '';
+                    changePasswordForm.password_confirmation = '';
+                    changePasswordForm.student_name = '';
+
+                    changePasswordForm.clearErrors();
+
+                    const func = toast[page.flash.toast.type as ToastType];
+
+                    func(page.flash.toast.message, { id: toastId });
+                },
+            },
+        );
     }
 
     function handleDelete() {
-        let toastId = toast.loading('Sedang menghapus');
+        let toastId = toast.loading('Sedang menghapus...');
 
         router.delete(
             route('dashboard.admin.students.destroy', {
@@ -146,32 +173,42 @@
     open={isChangePassword}
     onOpenChange={(open) => {
         isChangePassword = open;
+
+        changePasswordForm.clearErrors();
     }}
 >
     <Dialog.Content>
         <Dialog.Header>
             <Dialog.Title>Ubah password</Dialog.Title>
             <Dialog.Description>
-                Form untuk mengubah password siswa oleh admin. Isi nama siswa
-                untuk konfirmasi tidak salah input.
+                Form untuk mengubah password siswa oleh admin. Masukkan nama
+                berikut untuk memperbarui password: <strong
+                    >{student.name}</strong
+                >.
             </Dialog.Description>
         </Dialog.Header>
 
-        <form class="space-y-3" onsubmit={submitChangePassword}>
+        <form
+            class="space-y-3"
+            onsubmit={submitChangePassword}
+            autocomplete="off"
+        >
             <FormControl.PasswordInput
                 id="student-new-password"
                 label="Password baru"
                 placeholder="Masukkan password baru di sini"
                 bind:value={changePasswordForm.password}
                 error={changePasswordForm.errors.password}
+                autocomplete="new-password"
             />
 
             <FormControl.PasswordInput
-                id="student-confirmation-password"
+                id="student-password-confirmation"
                 label="Konfirmasi password"
                 placeholder="Konfirmasi password baru di sini"
-                bind:value={changePasswordForm.confirmation_password}
-                error={changePasswordForm.errors.confirmation_password}
+                bind:value={changePasswordForm.password_confirmation}
+                error={changePasswordForm.errors.password_confirmation}
+                autocomplete="new-password"
             />
 
             <FormControl.Input
@@ -179,7 +216,11 @@
                 label="Konfirmasi nama siswa"
                 placeholder="Konfirmasi nama siswa demi keamanan"
                 bind:value={changePasswordForm.student_name}
-                error={changePasswordForm.errors.student_name}
+                error={changePasswordForm.errors.student_name ||
+                    (!changePasswordForm.student_name ||
+                    changePasswordForm.student_name === student.name
+                        ? ''
+                        : 'Nama tidak cocok')}
             />
 
             <div class="flex justify-end gap-3">

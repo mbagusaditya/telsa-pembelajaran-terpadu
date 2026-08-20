@@ -6,7 +6,6 @@ use App\Data\Student\StudentData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\CreateStudentRequest;
 use App\Http\Requests\Student\UpdateStudentRequest;
-use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Services\StudentService;
 use Illuminate\Http\Request;
@@ -54,8 +53,8 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-     public function store(CreateStudentRequest $request, StudentService $studentService)
-     {
+    public function store(CreateStudentRequest $request, StudentService $studentService)
+    {
         $student = $studentService->create(
             $request->validated(),
             $request->file('avatar')
@@ -64,8 +63,8 @@ class StudentController extends Controller
         if (! $student) {
             Inertia::flash('toast', [
                 'message' => 'Gagal menambahkan siswa. Silakan coba lagi.',
-                'type'    => 'error',
-                'code'    => 500,
+                'type' => 'error',
+                'code' => 500,
             ]);
 
             return back();
@@ -73,11 +72,11 @@ class StudentController extends Controller
 
         Inertia::flash('toast', [
             'message' => 'Siswa berhasil ditambahkan!',
-            'type'    => 'success',
-            'code'    => 201,
+            'type' => 'success',
+            'code' => 201,
         ]);
 
-        if (!$request->boolean('create_another')) {
+        if (! $request->boolean('create_another')) {
             return redirect()->route('dashboard.admin.students.show', compact('student'));
         }
 
@@ -124,8 +123,8 @@ class StudentController extends Controller
         if (! $student) {
             Inertia::flash('toast', [
                 'message' => 'Gagal mengubah data siswa. Silakan coba lagi.',
-                'type'    => 'error',
-                'code'    => 500,
+                'type' => 'error',
+                'code' => 500,
             ]);
 
             return back();
@@ -133,8 +132,8 @@ class StudentController extends Controller
 
         Inertia::flash('toast', [
             'message' => 'Siswa berhasil diubah!',
-            'type'    => 'success',
-            'code'    => 201,
+            'type' => 'success',
+            'code' => 201,
         ]);
 
         return redirect()->route('dashboard.admin.students.show', compact('student'));
@@ -148,8 +147,8 @@ class StudentController extends Controller
         if (! $studentService->delete($student)) {
             Inertia::flash('toast', [
                 'message' => 'Siswa gagal dihapus!',
-                'type'    => 'error',
-                'code'    => 500,
+                'type' => 'error',
+                'code' => 500,
             ]);
 
             return back();
@@ -157,8 +156,8 @@ class StudentController extends Controller
 
         Inertia::flash('toast', [
             'message' => 'Siswa berhasil dihapus!',
-            'type'    => 'success',
-            'code'    => 204,
+            'type' => 'success',
+            'code' => 204,
         ]);
 
         return redirect()->route('dashboard.admin.students.index');

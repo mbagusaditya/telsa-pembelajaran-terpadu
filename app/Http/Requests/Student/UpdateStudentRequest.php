@@ -5,6 +5,7 @@ namespace App\Http\Requests\Student;
 use App\Enums\Gender;
 use App\Enums\StudentStatus;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::guard('web')->user();
 
         return $user->can('student.update');
@@ -47,7 +48,7 @@ class UpdateStudentRequest extends FormRequest
             'birth_date' => ['required', 'date'],
             'admission_year' => ['required', 'min:4', 'max:4'],
             'status' => ['required', Rule::in(StudentStatus::cases())],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048']
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 }

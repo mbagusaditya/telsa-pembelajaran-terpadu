@@ -13,6 +13,9 @@
         label: string;
         value: string | null;
         error?: string | null;
+
+        autocomplete?:
+            'off' | 'current-password' | 'one-time-code' | 'new-password';
     };
 
     let isPasswordRevealed = $state(false);
@@ -22,6 +25,7 @@
         label,
         error,
         id,
+        autocomplete = 'current-password',
         ...restProps
     }: Props = $props();
 </script>
@@ -39,7 +43,7 @@
             {id}
             type={isPasswordRevealed ? 'text' : 'password'}
             bind:value
-            autocomplete="current-password"
+            {autocomplete}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? `${id}-error` : undefined}
             {...restProps}

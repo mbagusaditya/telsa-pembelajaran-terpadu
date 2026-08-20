@@ -32,7 +32,7 @@ class Teacher extends Model
     public function casts(): array
     {
         return [
-            'gender' => Gender::class
+            'gender' => Gender::class,
         ];
     }
 

@@ -21,7 +21,7 @@ class UserData extends Data
         public string $password,
         public ?string $avatar,
         public ?string $role,
-        public Lazy | AdminData | StudentData | null $profile,
+        public Lazy|AdminData|StudentData|null $profile,
     ) {}
 
     public static function fromModel(User $user): self
@@ -38,13 +38,13 @@ class UserData extends Data
                 'student' => Lazy::whenLoaded(
                     'student',
                     $user,
-                    fn() => $user->student ? UserData::from($user->student) : null
+                    fn () => $user->student ? UserData::from($user->student) : null
                 )->defaultIncluded(),
 
                 'admin' => Lazy::whenLoaded(
                     'admin',
                     $user,
-                    fn() => $user->admin ? AdminData::from($user->admin) : null
+                    fn () => $user->admin ? AdminData::from($user->admin) : null
                 )->defaultIncluded(),
 
                 default => null,
