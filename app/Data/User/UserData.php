@@ -20,7 +20,7 @@ class UserData extends Data
         #[Hidden()]
         public string $password,
         public ?string $avatar,
-        public string $role,
+        public ?string $role,
         public Lazy | AdminData | StudentData | null $profile,
     ) {}
 

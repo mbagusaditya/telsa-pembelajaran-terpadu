@@ -2,7 +2,7 @@
     import DashboardLayout from '@/layouts/dashboard.svelte';
     import StudentInfolist from '@/components/module/dashboard/admin/infolist/student-infolist.svelte';
     import { type BreadcrumbItem } from '@/types/navigation';
-    import { inertia, page, router } from '@inertiajs/svelte';
+    import { inertia, page, router, useForm } from '@inertiajs/svelte';
     import { route } from '@/generated/helpers/route';
     import {
         ArrowLeftIcon,
@@ -10,9 +10,11 @@
         SquarePenIcon,
         Trash2Icon,
     } from '@lucide/svelte';
-    import { Button } from '@/components/ui/button';
+    import { Button, buttonVariants } from '@/components/ui/button';
     import { toast } from 'svelte-sonner';
     import DeleteConfirmation from '@/components/core/alert-dialog/delete-confirmation.svelte';
+    import * as Dialog from '@/components/ui/dialog';
+    import * as FormControl from '@/components/core/form-control';
 
     type Props = {
         title: string;
@@ -35,8 +37,22 @@
         },
     ];
 
+    const changePasswordForm = useForm({
+        password: '',
+        confirmation_password: '',
+        student_name: '',
+    });
+
+    // change password dialog
+    let isChangePassword = $state(false);
+
+    // delete dialog
     let isOpened = $state(false);
     let isDeleting = $state(false);
+
+    function submitChangePassword(e: Event) {
+        e.preventDefault();
+    }
 
     function handleDelete() {
         let toastId = toast.loading('Sedang menghapus');
@@ -99,7 +115,7 @@
                 </Button>
             </a>
 
-            <Button class="">
+            <Button class="" onclick={() => (isChangePassword = true)}>
                 <LockIcon />
                 Ubah password
             </Button>
@@ -125,3 +141,55 @@
         ini tidak dapat dibatalkan.
     {/snippet}
 </DeleteConfirmation>
+
+<Dialog.Root
+    open={isChangePassword}
+    onOpenChange={(open) => {
+        isChangePassword = open;
+    }}
+>
+    <Dialog.Content>
+        <Dialog.Header>
+            <Dialog.Title>Ubah password</Dialog.Title>
+            <Dialog.Description>
+                Form untuk mengubah password siswa oleh admin. Isi nama siswa
+                untuk konfirmasi tidak salah input.
+            </Dialog.Description>
+        </Dialog.Header>
+
+        <form class="space-y-3" onsubmit={submitChangePassword}>
+            <FormControl.PasswordInput
+                id="student-new-password"
+                label="Password baru"
+                placeholder="Masukkan password baru di sini"
+                bind:value={changePasswordForm.password}
+                error={changePasswordForm.errors.password}
+            />
+
+            <FormControl.PasswordInput
+                id="student-confirmation-password"
+                label="Konfirmasi password"
+                placeholder="Konfirmasi password baru di sini"
+                bind:value={changePasswordForm.confirmation_password}
+                error={changePasswordForm.errors.confirmation_password}
+            />
+
+            <FormControl.Input
+                id="student-name"
+                label="Konfirmasi nama siswa"
+                placeholder="Konfirmasi nama siswa demi keamanan"
+                bind:value={changePasswordForm.student_name}
+                error={changePasswordForm.errors.student_name}
+            />
+
+            <div class="flex justify-end gap-3">
+                <Dialog.Close
+                    type="button"
+                    class={buttonVariants({ variant: 'ghost' })}
+                    >Batalkan</Dialog.Close
+                >
+                <Button type="submit">Submit</Button>
+            </div>
+        </form>
+    </Dialog.Content>
+</Dialog.Root>

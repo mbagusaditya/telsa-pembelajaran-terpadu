@@ -55,8 +55,6 @@
             value: getUserName(student.creator),
         },
     ]);
-
-    $inspect(student);
 </script>
 
 <!-- {JSON.stringify(student)} -->
