@@ -99,4 +99,19 @@ class StudentService
             return false;
         }
     }
+
+    public function delete(Student $student): bool
+    {
+        try {
+            DB::transaction(function () use ($student) {
+                $student->user->delete();
+
+                $student->delete();
+            });
+
+            return true;
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 }
