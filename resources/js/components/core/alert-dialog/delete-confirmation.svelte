@@ -4,7 +4,7 @@
 
     type Props = {
         isOpened: boolean;
-        onOpenChange: (open: boolean) => void | null;
+        onOpenChange?: (open: boolean) => void | null;
         isDeleting: boolean;
         description: Snippet<[]> | null;
         handleDelete: () => void;

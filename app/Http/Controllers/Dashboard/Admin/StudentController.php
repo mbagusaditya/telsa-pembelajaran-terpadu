@@ -154,13 +154,13 @@ class StudentController extends Controller
 
             return back();
         }
-        
+
         Inertia::flash('toast', [
             'message' => 'Siswa berhasil dihapus!',
             'type'    => 'success',
             'code'    => 204,
         ]);
 
-        return back();
+        return redirect()->route('dashboard.admin.students.index');
     }
 }

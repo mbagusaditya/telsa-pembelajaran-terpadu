@@ -2,10 +2,12 @@
     import DashboardLayout from '@/layouts/dashboard.svelte';
     import StudentInfolist from '@/components/module/dashboard/admin/infolist/student-infolist.svelte';
     import { type BreadcrumbItem } from '@/types/navigation';
-    import { inertia } from '@inertiajs/svelte';
+    import { inertia, page, router } from '@inertiajs/svelte';
     import { route } from '@/generated/helpers/route';
     import { ArrowLeftIcon, SquarePenIcon, Trash2Icon } from '@lucide/svelte';
     import { Button } from '@/components/ui/button';
+    import { toast } from 'svelte-sonner';
+    import DeleteConfirmation from '@/components/core/alert-dialog/delete-confirmation.svelte';
 
     type Props = {
         title: string;
@@ -27,6 +29,39 @@
             label: student.name,
         },
     ];
+
+    let isOpened = $state(false);
+    let isDeleting = $state(false);
+
+    function handleDelete() {
+        let toastId = toast.loading('Sedang menghapus');
+
+        router.delete(
+            route('dashboard.admin.students.destroy', {
+                student: student.id,
+            }),
+            {
+                preserveScroll: true,
+                onStart: () => {
+                    isDeleting = true;
+                },
+                onFinish: () => {
+                    isDeleting = false;
+                    isOpened = false; // Tutup dialog
+
+                    if (!page.flash.toast) {
+                        toast.dismiss(toastId);
+
+                        return;
+                    }
+
+                    const func = toast[page.flash.toast.type as ToastType];
+
+                    func(page.flash.toast.message, { id: toastId });
+                },
+            },
+        );
+    }
 </script>
 
 <DashboardLayout {title} {breadcrumbItems}>
@@ -57,10 +92,24 @@
                 </Button>
             </a>
 
-            <Button class="" variant="destructive">
+            <Button variant="destructive" onclick={() => (isOpened = true)}>
                 <Trash2Icon />
                 Hapus siswa
             </Button>
         </div>
     </div>
 </DashboardLayout>
+
+<DeleteConfirmation
+    {isOpened}
+    {handleDelete}
+    {isDeleting}
+    onOpenChange={(open) => {
+        if (!open) isOpened = false;
+    }}
+>
+    {#snippet description()}
+        Data siswa <strong>{student?.name}</strong> akan dihapus permanen. Tindakan
+        ini tidak dapat dibatalkan.
+    {/snippet}
+</DeleteConfirmation>
