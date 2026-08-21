@@ -17,13 +17,15 @@ return new class extends Migration
             $table->string('nis', 20);
             $table->string('nisn', 20);
             $table->string('name', 100);
-            $table->date('born_date');
-            $table->string('born_place', 100);
+            $table->date('birth_date');
+            $table->string('birth_place', 100);
             $table->unsignedSmallInteger('admission_year');
             $table->string('status');
-            $table->uuid('user_id');
-            $table->uuid('created_by');
+            $table->string('gender', 10);
+            $table->uuid('user_id')->nullable();
+            $table->uuid('created_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')

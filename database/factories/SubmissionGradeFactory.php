@@ -22,8 +22,8 @@ class SubmissionGradeFactory extends Factory
         return [
             'score' => fake()->numberBetween(40, 100),
             'feedback' => fake()->randomElement([
-                fake()->words(10,true),
-                null
+                fake()->words(10, true),
+                null,
             ]),
             'teacher_id' => Teacher::factory(),
             'submission_id' => Submission::factory(),
@@ -32,15 +32,15 @@ class SubmissionGradeFactory extends Factory
 
     public function setTeacher(Teacher $teacher): static
     {
-        return $this->state(fn() => [
-            'teacher_id' => $teacher->id
+        return $this->state(fn () => [
+            'teacher_id' => $teacher->id,
         ]);
     }
 
     public function setSubmission(Submission $submission): static
     {
-        return $this->state(fn() => [
-            'submission_id' => $submission->id
+        return $this->state(fn () => [
+            'submission_id' => $submission->id,
         ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\Gender;
+use App\Enums\StudentStatus;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\User;
@@ -24,19 +26,27 @@ class StudentFactory extends Factory
             'nis' => fake()->numerify('######'),
             'nisn' => fake()->unique()->numerify('##########'),
             'name' => fake()->name(),
-            'born_date' => fake()->date(),
-            'born_place' => fake()->city(),
+            'birth_date' => fake()->date(),
+            'birth_place' => fake()->city(),
+            'gender' => fake()->randomElement(Gender::cases()),
             'admission_year' => (int) fake()->dateTimeBetween(startDate: '-5 years')->format('Y'),
-            'status' => 'active',
-            'user_id' => User::factory(),
-            'created_by' => User::factory()
+            'status' => fake()->randomElement(StudentStatus::cases()),
+            'user_id' => User::factory()->student(),
+            'created_by' => User::factory()->admin(),
         ];
     }
 
     public function createdBy(Admin $admin): static
     {
         return $this->state(fn (array $attributes) => [
-            'created_by' => $admin->user_id
+            'created_by' => $admin->user_id,
+        ]);
+    }
+
+    public function setUser(User $user): static
+    {
+        return $this->state(fn () => [
+            'user_id' => $user->id,
         ]);
     }
 
@@ -56,9 +66,9 @@ class StudentFactory extends Factory
         $sequence = fake()->numerify('####');
 
         return $province
-            . $regency
-            . $district
-            . $date
-            . $sequence;
+            .$regency
+            .$district
+            .$date
+            .$sequence;
     }
 }

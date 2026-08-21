@@ -26,21 +26,21 @@ class MaterialFactory extends Factory
             'description' => fake()->words(20, true),
             'visibility' => 'public',
             'created_by' => User::factory(),
-            'course_offering_id' => CourseOffering::factory()
+            'course_offering_id' => CourseOffering::factory(),
         ];
     }
 
-    public function createdBy(Admin | Teacher $userLike): static
+    public function createdBy(Admin|Teacher $userLike): static
     {
-        return $this->state(fn() => [
-            'created_by' => $userLike->user_id
+        return $this->state(fn () => [
+            'created_by' => $userLike->user_id,
         ]);
     }
 
     public function setCourseOffering(CourseOffering $courseOffering): static
     {
-        return $this->state(fn() => [
-            'course_offering_id' => $courseOffering->id
+        return $this->state(fn () => [
+            'course_offering_id' => $courseOffering->id,
         ]);
     }
 }

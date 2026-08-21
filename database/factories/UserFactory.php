@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 /**
  * @extends Factory<User>
@@ -41,5 +42,40 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * State untuk Admin
+     */
+    public function admin(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            // firstOrCreate mencegah error jika role sudah ada
+            $role = Role::firstOrCreate(['name' => 'admin']);
+            $user->assignRole($role);
+        });
+    }
+
+    /**
+     * State untuk Teacher
+     */
+    public function teacher(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            // firstOrCreate mencegah error jika role sudah ada
+            $role = Role::firstOrCreate(['name' => 'teacher']);
+            $user->assignRole($role);
+        });
+    }
+
+    /**
+     * State untuk Student
+     */
+    public function student(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $role = Role::firstOrCreate(['name' => 'student']);
+            $user->assignRole($role);
+        });
     }
 }

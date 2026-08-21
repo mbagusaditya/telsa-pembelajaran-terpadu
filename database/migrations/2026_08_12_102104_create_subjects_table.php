@@ -15,8 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('code', 10)->unique();
             $table->string('name', 100);
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('created_by')
                 ->references('id')

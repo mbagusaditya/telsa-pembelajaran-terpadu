@@ -1,4 +1,7 @@
-import "./../css/app.css"
-import { createInertiaApp } from '@inertiajs/svelte'
+import './../css/app.css';
+import { createInertiaApp } from '@inertiajs/svelte';
+import { setMode } from 'mode-watcher';
 
-createInertiaApp()
+setMode('light');
+
+createInertiaApp();

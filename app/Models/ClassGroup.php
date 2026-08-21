@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\ClassGroupFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable([
     'code',
@@ -14,17 +16,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'academic_year',
     'major_id',
     'homeroom_teacher_id',
-    'created_by'
+    'created_by',
 ])]
 class ClassGroup extends Model
 {
-    /** @use HasFactory<\Database\Factories\ClassGroupFactory> */
-    use HasFactory, HasUuids;
+    /** @use HasFactory<ClassGroupFactory> */
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
-    public function creator():BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }

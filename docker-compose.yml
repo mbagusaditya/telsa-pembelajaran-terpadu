@@ -1,5 +1,4 @@
 services:
-
     app:
         container_name: telsa_app
 
@@ -11,8 +10,8 @@ services:
                 GID: 1000
 
         environment:
-            PHP_OPCACHE_VALIDATE_TIMESTAMPS: "1"
-            PHP_OPCACHE_REVALIDATE_FREQ: "0"
+            PHP_OPCACHE_VALIDATE_TIMESTAMPS: '1'
+            PHP_OPCACHE_REVALIDATE_FREQ: '0'
             DB_HOST: db
             REDIS_HOST: redis
 
@@ -20,12 +19,10 @@ services:
             - .env
 
         ports:
-            - "${APP_PORT:-8000}:8000"
-            - "5173:5173"
+            - '${APP_PORT:-8000}:8000'
 
         expose:
-            - "8000"
-            - "5173"
+            - '8000'
 
         volumes:
             - ./:/app
@@ -43,30 +40,28 @@ services:
         restart: unless-stopped
 
         command:
-            - "--watch"
-            - "--workers=1"
-
+            - '--watch'
+            - '--workers=1'
 
     db:
         container_name: telsa_db_mysql
 
-        image: mysql:9.0
+        image: mariadb:11.4
 
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_DATABASE: ${DB_DATABASE:-telsa}
 
         volumes:
-            - mysql-data:/var/lib/mysql
+            - mariadb-data:/var/lib/mysql
 
         ports:
-            - "3306:3306"
+            - '3306:3306'
 
         networks:
             - main-network
 
         restart: unless-stopped
-
 
     phpmyadmin:
         container_name: telsa_phpmyadmin
@@ -74,7 +69,7 @@ services:
         image: phpmyadmin:apache
 
         ports:
-            - "${PMA_PORT:-8090}:80"
+            - '${PMA_PORT:-8090}:80'
 
         networks:
             - main-network
@@ -84,9 +79,8 @@ services:
 
         environment:
             PMA_HOST: db
-            PMA_PORT: "3306"
-            PMA_ARBITRARY: "0"
-
+            PMA_PORT: '3306'
+            PMA_ARBITRARY: '0'
 
     redis:
         container_name: telsa_redis
@@ -104,16 +98,14 @@ services:
         command:
             - redis-server
             - --appendonly
-            - "yes"
-
+            - 'yes'
 
 networks:
     main-network:
         driver: bridge
 
-
 volumes:
-    mysql-data:
+    mariadb-data:
         driver: local
 
     redis-data:

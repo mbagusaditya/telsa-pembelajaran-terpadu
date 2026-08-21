@@ -18,9 +18,10 @@ return new class extends Migration
             $table->datetime('due_date');
             $table->string('visibility', 100);
             $table->unsignedTinyInteger('max_attempt');
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->uuid('course_offering_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('created_by')
                 ->references('id')

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->uuid('assignment_id');
             $table->timestamp('submitted_at');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('student_id')
                 ->references('id')

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('academic_year', 10);
             $table->uuid('major_id');
-            $table->uuid('homeroom_teacher_id');
-            $table->uuid('created_by');
+            $table->uuid('homeroom_teacher_id')->nullable();
+            $table->uuid('created_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('major_id')
                 ->references('id')

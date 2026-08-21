@@ -37,7 +37,7 @@ class ScheduleFactory extends Factory
                 'Ruang 01',
                 'Ruang 02',
                 'Ruang 03',
-                'Lapangan'
+                'Lapangan',
             ]),
             'started_at' => $times[$index],
             'finished_at' => $times[$index + 1],
@@ -46,24 +46,24 @@ class ScheduleFactory extends Factory
                 'tuesday',
                 'wednesday',
                 'thursday',
-                'friday'
+                'friday',
             ]),
             'course_offering_id' => CourseOffering::factory(),
-            'created_by' => User::factory()
+            'created_by' => User::factory(),
         ];
     }
 
     public function setCourseOffering(CourseOffering $courseOffering): static
     {
-        return $this->state(fn() => [
-            'course_offering_id' => $courseOffering->id
+        return $this->state(fn () => [
+            'course_offering_id' => $courseOffering->id,
         ]);
     }
 
     public function createdBy(Admin $admin): static
     {
-        return $this->state(fn() => [
-            'created_by' => $admin->user_id
+        return $this->state(fn () => [
+            'created_by' => $admin->user_id,
         ]);
     }
 }

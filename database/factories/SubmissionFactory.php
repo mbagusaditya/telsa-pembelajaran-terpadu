@@ -26,22 +26,22 @@ class SubmissionFactory extends Factory
             'assignment_id' => Assignment::factory(),
             'submitted_at' => fake()->randomElement([
                 now(),
-                now()->addDays(10)
-            ])
+                now()->addDays(10),
+            ]),
         ];
     }
 
     public function setStudent(Student $student): static
     {
-        return $this->state(fn() => [
-            'student_id' => $student->id
+        return $this->state(fn () => [
+            'student_id' => $student->id,
         ]);
     }
 
     public function setAssignment(Assignment $assignment): static
     {
-        return $this->state(fn() => [
-            'assignment_id' => $assignment->id
+        return $this->state(fn () => [
+            'assignment_id' => $assignment->id,
         ]);
     }
 }

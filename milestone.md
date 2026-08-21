@@ -3,11 +3,13 @@
 Roadmap pengembangan Learning Management System (LMS).
 
 > Status:
+>
 > - `[ ]` Belum dikerjakan
 > - `[-]` Sedang dikerjakan
 > - `[x]` Selesai
 >
 > Prioritas:
+>
 > - `P0` Critical / blocking
 > - `P1` High
 > - `P2` Medium
@@ -51,14 +53,14 @@ Tujuan: memastikan project dapat dijalankan dan dikembangkan dengan nyaman.
 ## M0.3 — Development Data
 
 - [x] Database schema design
-- [ ] Initial migrations
-- [ ] Initial models
-- [ ] Initial factories
-- [ ] Initial seeders
-- [ ] Development admin account
-- [ ] Development sample users
-- [ ] Development sample courses
-- [ ] Development sample classes
+- [x] Initial migrations
+- [x] Initial models
+- [x] Initial factories
+- [x] Initial seeders
+- [x] Development admin account
+- [x] Development sample users
+- [x] Development sample courses
+- [x] Development sample classes
 
 ## M0.4 - Migrations, Seeders, Factories, and Models
 
@@ -85,18 +87,17 @@ Tujuan: membangun fondasi identitas dan akses pengguna.
 
 ## M1.1 — Authentication
 
-- [ ] Login
-- [ ] Logout
-- [ ] Registration
+- [x] Login
+- [x] Logout
 - [ ] Email verification
 - [ ] Forgot password
 - [ ] Reset password
-- [ ] Remember me
-- [ ] Session management
+- [x] Remember me
+- [x] Session management
 
 ## M1.2 — User Management
 
-- [ ] User model
+- [x] User model
 - [ ] User profile
 - [ ] Profile photo
 - [ ] Change password
@@ -107,20 +108,20 @@ Tujuan: membangun fondasi identitas dan akses pengguna.
 
 ## M1.3 — Roles & Permissions
 
-- [ ] Role model
-- [ ] Permission model
-- [ ] Role-permission relationship
-- [ ] User-role relationship
-- [ ] Authorization policies
-- [ ] Admin authorization
-- [ ] Teacher authorization
-- [ ] Student authorization
+- [x] Role model
+- [x Permission model
+- [x] Role-permission relationship
+- [x] User-role relationship
+- [x] Authorization policies
+- [x] Admin authorization
+- [x] Teacher authorization
+- [x] Student authorization
 
 ### Initial Roles
 
-- [ ] Administrator
-- [ ] Teacher
-- [ ] Student
+- [x] Administrator
+- [x] Teacher
+- [x] Student
 
 ---
 

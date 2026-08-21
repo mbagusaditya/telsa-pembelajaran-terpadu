@@ -4,9 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CourseOffering;
 use App\Models\Material;
-use App\Models\Schedule;
 use App\Models\Teacher;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MaterialSeeder extends Seeder
@@ -16,8 +14,9 @@ class MaterialSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!app()->environment('local'))
+        if (! app()->environment('local')) {
             return;
+        }
 
         $courseOffering = CourseOffering::query()->get(['id', 'teacher_id'])->first();
 
